@@ -1,3 +1,6 @@
+# Poster: Verification of qRNG Using qGAN and Classification Models
+Available under the link: [Poster](hubertkolcz/NoiseVsRandomness/Verification_of_qRNG_Using_qGAN_and_Classification_Models.pdf)
+
 # Noise versus Randomness
 YQuantum 2024 -- DoraHacks Challenge
 
