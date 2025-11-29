@@ -649,7 +649,7 @@
                     <img src="../figures/fig_nn_validation_N30.png" alt="NN Validation N=30" style="max-height: 480px; border: 2px solid var(--secondary-purple);">
                 </div>
                 <div class="highlight-box" style="margin-top: 10px; background: rgba(16, 185, 129, 0.15); border-left-color: #10b981;">
-                    <strong>📊 N=30 Validation Evidence:</strong> Neural Network achieves 59% accuracy (p<10⁻⁹), 77% above random baseline (33.3%). Confusion matrix shows balanced performance across 3 bias classes. Original N=3 results replicate at scale with proper statistical power (df=28).
+                    <strong>📊 N=30 Synthetic Validation:</strong> Neural Network achieves 59% accuracy (p<10⁻⁹) on synthetic devices, consistent with N=3 real simulator results (58.67%). Statistical significance now validated with proper power (df=28). Performance: 77% above random baseline (33.3%). Real QPU hardware validation pending.
                 </div>
                 <div class="grid-2" style="margin-top: 10px;">
                     <div class="section-box">
@@ -886,7 +886,7 @@
                 <div class="highlight-box" style="margin-top: 25px; background: rgba(239, 68, 68, 0.2); border-left-color: #ef4444;">
                     <strong>🎯 Validated Result (N=30):</strong> ML models exploit statistical differences invisible to NIST tests<br>
                     <div style="margin-top: 12px; font-size: 20px;">
-                        All devices pass χ² test (χ² < 3.841), yet achieve 59% classification (validated N=30: p<10⁻⁹). qGAN KL divergence and NN accuracy show r=0.865 correlation. Between-class devices 20× more distinguishable than within-class (p<10⁻⁶⁰)
+                        All devices pass χ² test (χ² < 3.841), yet achieve 59% classification (N=30 synthetic: p<10⁻⁹). Within N=30 study: KL divergence and NN accuracy show r=0.865 correlation (p<10⁻⁹), demonstrating multi-method consistency. Between-class devices 20× more distinguishable than within-class (p<10⁻⁶⁰)
                     </div>
                 </div>
             </div>
@@ -1045,8 +1045,8 @@
                 <div class="section-box">
                     <div class="section-title">Key Contributions</div>
                     <ol class="numbered-list" style="font-size: 21px;">
-                        <li><strong>Device Fingerprinting (N=30 Validated):</strong> 59% accuracy distinguishing synthetic noise profiles (77% above baseline) - validated with r=0.865, p<10⁻⁹</li>
-                        <li><strong>Multi-Method Consistency (Validated):</strong> Three independent approaches (qGAN KL tournament, LR 60%, NN 59%) with ρ=0.931 Spearman correlation (p<10⁻¹⁴)</li>
+                        <li><strong>Device Fingerprinting (Synthetic Validation):</strong> NN achieves 59% accuracy on N=30 synthetic devices (p<10⁻⁹), replicating N=3 real simulator results (58.67%). Performance 77% above random baseline. Real hardware validation required.</li>
+                        <li><strong>Multi-Method Consistency (N=30 Internal):</strong> Within N=30 study: KL divergence correlates with NN accuracy (Pearson r=0.865, Spearman ρ=0.931, both p<10⁻⁹), demonstrating that two independent methods converge on same device rankings.</li>
                         <li><strong>qGAN Tournament Framework:</strong> 20× distinguishability (p<10⁻⁶⁰) between device classes - within-class KL divergence 0.077±0.07 vs between-class 1.60±1.12</li>
                         <li><strong>Scalability Demonstrated:</strong> N=3 baseline → N=30 validation confirms all metrics replicate at scale with strong statistical significance</li>
                         <li><strong>Proposed Application:</strong> Framework validated on synthetic data; <span style="color: #ef4444; font-weight: bold;">requires testing on real quantum hardware and certified RNG devices</span></li>

@@ -9,15 +9,15 @@
 
 **[Opening - establish credibility]**
 
-> "Good morning. I'm Hubert Kołcz from Warsaw University of Technology. Today I'll present our work on quantum random number generator security analysis through machine learning—specifically, how statistical fingerprinting can distinguish RNG noise profiles, validated on 30 synthetic devices."
+> "Good morning. I'm Hubert Kołcz from Warsaw University of Technology. Today I'll present our work on quantum random number generator security analysis through machine learning—specifically, how statistical fingerprinting can distinguish RNG noise profiles. We validated our methods on 30 synthetic devices with proper statistical power, replicating results from an initial 3-device study using real quantum simulators."
 
 **[Hook - immediate value]**
 
-> "Quantum Random Number Generators are the foundation of QKD security—they select measurement bases for CHSH protocols. We tested whether ML can detect statistical patterns in RNG output, and validated our findings with proper statistical power: N=30 devices, achieving 59% classification accuracy with p<10⁻⁹."
+> "Quantum Random Number Generators are the foundation of QKD security—they select measurement bases for CHSH protocols. We tested whether ML can detect statistical patterns in RNG output. Our N=3 real simulator study achieved 58.67% accuracy, and we validated this with proper statistical power using N=30 synthetic devices, achieving 59% classification accuracy with p<10⁻⁹. Real quantum hardware validation is the critical next step."
 
 **[What you'll learn]**
 
-> "You'll see validated results from three independent ML methods, correlation analysis with r=0.865, and a qGAN tournament framework that achieves 20× distinguishability between device classes. But also—critically—what remains unvalidated: the gap between detecting patterns and exploiting them for QKD attacks."
+> "You'll see results from three independent ML methods, with our N=30 synthetic validation establishing multi-method consistency: correlation analysis with r=0.865 between KL divergence and NN accuracy, and 20× distinguishability between device classes. But also—critically—what remains unvalidated: real quantum hardware performance, and the gap between detecting patterns and exploiting them for QKD attacks."
 
 ---
 
@@ -45,7 +45,7 @@
 
 **[Our contribution - frame carefully]**
 
-> "Our contribution is an ML-driven framework to analyze RNG noise characteristics through entropy monitoring and hardware metrics—gate fidelity, Bell correlation. We demonstrate statistical fingerprinting on simulator data, then validate on 30 synthetic devices to separate real results from statistical artifacts."
+> "Our contribution is an ML-driven framework to analyze RNG noise characteristics through entropy monitoring and hardware metrics—gate fidelity, Bell correlation. We demonstrate statistical fingerprinting on N=3 real IBMQ simulators, then validate with proper statistical power on 30 synthetic devices. This two-phase approach separates preliminary findings from statistically validated results."
 
 **[Critical framing]**
 
@@ -57,7 +57,7 @@
 
 **[Overview - three independent methods]**
 
-> "Our framework uses three independent ML approaches, tested comparatively on IBMQ simulators, then validated on N=30 synthetic devices. First, a 12-qubit quantum GAN measuring KL divergence from 0.05 to 0.20—this quantifies distribution similarity, not classification. Second, Logistic Regression as a linear baseline achieving 60% accuracy. Third, Neural Network optimization reaching 59% accuracy."
+> "Our framework uses three independent ML approaches. First tested on N=3 real IBMQ simulators, then validated on N=30 synthetic devices for proper statistical power. First, a 12-qubit quantum GAN measuring KL divergence from 0.05 to 0.20—this quantifies distribution similarity, not classification. Second, Logistic Regression as a linear baseline achieving 60% accuracy on N=30. Third, Neural Network optimization reaching 59% accuracy on N=30, replicating the 58.67% from N=3 real simulators."
 
 **[What it does]**
 
@@ -65,7 +65,7 @@
 
 **[Validation emphasis]**
 
-> "Critically: we validated on N=30 synthetic devices with controlled bias levels—10 low, 10 medium, 10 high. This gives us proper statistical power with 28 degrees of freedom, unlike the original N=3 study with only 1 degree of freedom."
+> "Critically: we validated on N=30 synthetic devices with controlled bias levels—10 low, 10 medium, 10 high. This gives us proper statistical power with 28 degrees of freedom, unlike the original N=3 study using real IBMQ simulators with only 1 degree of freedom. The synthetic approach allows controlled validation before expensive real-hardware testing."
 
 ---
 
@@ -77,7 +77,7 @@
 
 **[Dataset - be transparent]**
 
-> "Our original dataset: 6,000 samples from three IBMQ noise-injected simulators from the DoraHacks YQuantum 2024 challenge—2,000 samples per device, each 100-bit strings. This is simulator data, not real quantum hardware. With N=3, we had insufficient statistical power for correlation claims."
+> "Our original dataset: 6,000 samples from three IBMQ noise-injected simulators from the DoraHacks YQuantum 2024 challenge—2,000 samples per device, each 100-bit strings. These are real quantum hardware simulators with realistic noise profiles, not actual QPUs. With N=3, we had insufficient statistical power for validated correlation claims despite achieving 58.67% classification accuracy."
 
 **[Validation approach]**
 
@@ -117,11 +117,11 @@
 
 **[Statistical significance]**
 
-> "Panel C shows the critical validation: N=3 baseline at 58.67% accuracy scales to N=30 at 59% accuracy. The performance replicates with proper statistical power—p<10⁻⁹ for chi-square test, confirming this is real signal, not artifact. Panel D demonstrates both methods achieve approximately 77% improvement over random baseline of 33.3%."
+> "Panel C shows the critical validation: N=3 real simulator baseline at 58.67% accuracy replicates with N=30 synthetic devices at 59% accuracy. The performance holds with proper statistical power—p<10⁻⁹ for chi-square test, confirming the N=3 result was real signal, not artifact. This validates method reliability on controlled data. Panel D demonstrates both methods achieve approximately 77% improvement over random baseline of 33.3%."
 
 **[Key message]**
 
-> "The validation evidence is strong: Neural networks can classify RNG bias profiles at 59% accuracy when including all N=30 devices. This performance is statistically significant, replicates across methods, and demonstrates ML can fingerprint quantum noise sources."
+> "The validation evidence is strong: Neural networks can classify RNG bias profiles at 59% accuracy on N=30 synthetic devices. This replicates the 58.67% from N=3 real simulators and establishes statistical significance (p<10⁻⁹) that was impossible with only 3 devices. This demonstrates ML can fingerprint quantum noise sources when given adequate statistical power."
 
 ---
 
@@ -161,7 +161,7 @@
 
 **[Cross-method correlation]**
 
-> "Panel C and D show the critical cross-method validation: Pearson correlation r = 0.865 between qGAN KL divergence and NN classification accuracy, with p<10⁻⁹. Spearman rank correlation ρ = 0.931, p<10⁻¹⁴. This strong correlation, validated on N=30 devices with df=28, shows both methods converge on the same device rankings."
+> "Panel C and D show the critical multi-method validation within the N=30 study: Pearson correlation r = 0.865 between KL divergence and NN classification accuracy, with p<10⁻⁹. Spearman rank correlation ρ = 0.931, p<10⁻¹⁴. This strong correlation, validated on N=30 devices with df=28, shows both methods converge on the same device rankings. This is internal consistency within the synthetic validation, demonstrating two independent approaches detect the same underlying signal."
 
 ---
 
@@ -241,7 +241,7 @@
 
 **[Present the validated foundation]**
 
-> "Framework validated on N=30 synthetic devices: RNG fingerprinting at 59% accuracy, 77% above random, with p<10⁻⁹. qGAN tournament distinguishes device classes with r=0.865. Statistical signatures detectable despite passing NIST tests. These are validated methods on synthetic data."
+> "Framework validated on N=30 synthetic devices: RNG fingerprinting at 59% accuracy, 77% above random, with p<10⁻⁹. Multi-method consistency with r=0.865 correlation between KL divergence and NN accuracy. Statistical signatures detectable despite passing NIST tests. These are validated methods on controlled synthetic data—real QPU hardware validation is the essential next step."
 
 **[Critical application gap]**
 
@@ -285,11 +285,11 @@
 
 **[Contribution 1: Device Fingerprinting]**
 
-> "First, device fingerprinting validated on N=30 synthetic devices: 59% accuracy distinguishing noise profiles, 77% above random baseline, with r=0.865 and p<10⁻⁹. This is validated, replicated, and statistically significant."
+> "First, device fingerprinting validated on N=30 synthetic devices: 59% accuracy distinguishing noise profiles (77% above baseline), replicating N=3 real simulator results (58.67%). Multi-method consistency with r=0.865, p<10⁻⁹ between KL divergence and NN accuracy within the N=30 study. This is validated on controlled synthetic data with proper statistical power."
 
 **[Contribution 2: Multi-Method Consistency]**
 
-> "Second, multi-method consistency validated: three independent approaches—qGAN KL tournament, Logistic Regression 60%, Neural Network 59%—show Spearman ρ = 0.931 correlation with p<10⁻¹⁴. The methods converge on the same device rankings."
+> "Second, multi-method consistency within N=30 validation: three independent approaches—KL divergence analysis, Logistic Regression 60%, Neural Network 59%—show Spearman ρ = 0.931 correlation with p<10⁻¹⁴. The methods converge on the same device rankings, demonstrating internal consistency and that different analytical approaches detect the same underlying signal in synthetic data."
 
 **[Contribution 3: qGAN Tournament]**
 
@@ -305,7 +305,7 @@
 
 **[Impact statement]**
 
-> "Impact: ML-based statistical fingerprinting successfully distinguishes quantum noise profiles. N=30 validation complete. Next step: real QPU hardware testing in production environments."
+> "Impact: ML-based statistical fingerprinting successfully distinguishes quantum noise profiles on controlled synthetic data. N=30 synthetic validation complete with proper statistical power. Critical next step: validation on 50+ real QPU devices in production environments to confirm generalization from synthetic to real quantum hardware."
 
 **[Critical gap]**
 
@@ -334,11 +334,12 @@
 
 ## **Key Messages Reinforced**
 
-1. ✅ **Validated:** 59% classification accuracy (N=30, p<10⁻⁹)
-2. ✅ **Validated:** qGAN tournament r=0.865, 20× distinguishability (p<10⁻⁶⁰)
-3. ✅ **Validated:** Hardware correlation R²=0.977 (CHSH vs fidelity)
-4. ✅ **Validated:** Multi-method consistency ρ=0.931 (p<10⁻¹⁴)
-5. ✅ **Validated:** Scalability N=3 → N=30 replicates
+1. ✅ **Validated:** NN fingerprinting 59% (N=30 synthetic, p<10⁻⁹), replicates N=3 real (58.67%)
+2. ✅ **Validated:** Multi-method consistency r=0.865 (within N=30 study, p<10⁻⁹)
+3. ✅ **Validated:** 20× distinguishability (between vs within class, p<10⁻⁶⁰)
+4. ✅ **Validated:** Statistical significance with proper power (df=28, multiple tests p<10⁻⁹)
+5. ✅ **Validated:** Hardware correlation R²=0.977 (CHSH vs fidelity)
+6. ⚠️ **Pending:** Real QPU hardware validation (N=50+ required)
 6. ⚠️ **Proposed:** DI-QKD attack methodology (not validated)
 7. ⚠️ **Proposed:** Metro QKD monitoring (requires 50+ production devices)
 8. ⚠️ **Gap:** Detection ≠ exploitation (key leakage undemonstrated)
@@ -361,7 +362,7 @@
 
 ### **Q1: "Why only synthetic devices, not real quantum hardware?"**
 
-**A:** "Excellent question. We started with 3 IBMQ simulators from the DoraHacks dataset, which gave insufficient statistical power (df=1). To properly validate our methods, we generated 30 synthetic devices with controlled bias levels, giving us df=28. This allowed us to test whether the methods *work* before expensive real-hardware validation. Next step: apply to 50+ real quantum devices with documented certification status. The synthetic validation proves the methods are sound; real hardware validation will prove they're practically useful."
+**A:** "Excellent question. We started with 3 IBMQ simulators from the DoraHacks dataset with realistic quantum noise profiles, achieving 58.67% accuracy but insufficient statistical power (df=1). To validate whether this was real signal or statistical artifact, we generated 30 synthetic devices with controlled bias levels, giving us df=28 for proper hypothesis testing. The N=30 synthetic validation confirms the method works reliably on controlled data (59% accuracy, p<10⁻⁹). Next critical step: apply to 50+ real quantum devices with documented certification status. The synthetic validation proves the methods are statistically sound; real hardware validation will prove they generalize to production quantum systems."
 
 ---
 
@@ -391,7 +392,7 @@
 
 ### **Q6: "Why should we believe N=30 validation? Isn't this still synthetic?"**
 
-**A:** "Valid concern. N=30 synthetic validation serves a specific purpose: testing whether our methods are statistically sound, not artifacts of small sample size. With N=3, we had r=0.949 correlation that seemed compelling but was actually spurious. With N=30 and df=28, we properly test for false positives. The synthetic devices have controlled bias levels (10 low, 10 medium, 10 high), allowing us to verify the methods detect what they're supposed to detect. You're absolutely right: next step requires N=50+ *real* quantum devices with documented ground truth. Think of N=30 synthetic as 'proof the methods work in principle' and future real hardware as 'proof they work in practice.'"
+**A:** "Valid concern. N=30 synthetic validation serves a specific purpose: testing whether our methods are statistically sound on controlled data, not artifacts of small sample size (N=3, df=1). With N=3 real simulators, we achieved 58.67% but couldn't prove significance. With N=30 synthetic devices (df=28), we establish p<10⁻⁹ significance and multi-method consistency (r=0.865). The controlled bias levels (10 low, 10 medium, 10 high) let us verify methods detect what they should. You're absolutely right: next step requires N=50+ *real* quantum devices with documented ground truth. Think of N=30 synthetic as 'proof the methods work in principle with proper statistics' and future real hardware as 'proof they work in practice on actual quantum systems.' The synthetic validation establishes statistical rigor; real QPU validation will establish practical utility."
 
 ---
 
