@@ -1,0 +1,482 @@
+[
+  {
+    "device_id": "low_bias_0",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.4949816047538945,
+    "temporal_correlation": 0.04753571532049581,
+    "drift": 0.009279757672456205,
+    "actual_freq_1": 0.49625,
+    "actual_entropy": 0.9999594238215683,
+    "transition_probs": {
+      "00": 0.2656414141414141,
+      "01": 0.2380909090909091,
+      "10": 0.23812626262626263,
+      "11": 0.2581414141414141
+    }
+  },
+  {
+    "device_id": "low_bias_1",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.4955911008938691,
+    "temporal_correlation": 0.017752079067044797,
+    "drift": -0.003258062032884052,
+    "actual_freq_1": 0.49655,
+    "actual_entropy": 0.999965656372032,
+    "transition_probs": {
+      "00": 0.25817171717171716,
+      "01": 0.2452777777777778,
+      "10": 0.24534848484848484,
+      "11": 0.2512020202020202
+    }
+  },
+  {
+    "device_id": "low_bias_2",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.5033632036794903,
+    "temporal_correlation": 0.03789676692419842,
+    "drift": 0.0050790152672270834,
+    "actual_freq_1": 0.50269,
+    "actual_entropy": 0.9999791209281066,
+    "transition_probs": {
+      "00": 0.25732323232323234,
+      "01": 0.23996464646464646,
+      "10": 0.24003535353535355,
+      "11": 0.2626767676767677
+    }
+  },
+  {
+    "device_id": "low_bias_3",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.49037072287289435,
+    "temporal_correlation": 0.016455097304068744,
+    "drift": 0.002224606459451481,
+    "actual_freq_1": 0.48949,
+    "actual_entropy": 0.9996812560482816,
+    "transition_probs": {
+      "00": 0.26431818181818184,
+      "01": 0.246010101010101,
+      "10": 0.24622727272727274,
+      "11": 0.24344444444444444
+    }
+  },
+  {
+    "device_id": "low_bias_4",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.5166790624802802,
+    "temporal_correlation": 0.04776903390151142,
+    "drift": -0.010497071955629789,
+    "actual_freq_1": 0.516745,
+    "actual_entropy": 0.9991907996724476,
+    "transition_probs": {
+      "00": 0.24579292929292929,
+      "01": 0.2373989898989899,
+      "10": 0.23766666666666666,
+      "11": 0.27914141414141413
+    }
+  },
+  {
+    "device_id": "low_bias_5",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.5126643977662008,
+    "temporal_correlation": 0.021854223608736907,
+    "drift": 0.016328201208404582,
+    "actual_freq_1": 0.513405,
+    "actual_entropy": 0.9994814505119252,
+    "transition_probs": {
+      "00": 0.24283333333333335,
+      "01": 0.24377272727272728,
+      "10": 0.24373737373737372,
+      "11": 0.26965656565656565
+    }
+  },
+  {
+    "device_id": "low_bias_6",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.5119382227106292,
+    "temporal_correlation": 0.03790843667407159,
+    "drift": 0.004393129697128462,
+    "actual_freq_1": 0.51109,
+    "actual_entropy": 0.9996451022539428,
+    "transition_probs": {
+      "00": 0.24833838383838383,
+      "01": 0.2405858585858586,
+      "10": 0.24067171717171718,
+      "11": 0.2704040404040404
+    }
+  },
+  {
+    "device_id": "low_bias_7",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.49160161914761547,
+    "temporal_correlation": 0.022328413657425994,
+    "drift": 0.01991465948629301,
+    "actual_freq_1": 0.489025,
+    "actual_entropy": 0.9996524250477291,
+    "transition_probs": {
+      "00": 0.2666414141414141,
+      "01": 0.24444949494949494,
+      "10": 0.24435353535353535,
+      "11": 0.24455555555555555
+    }
+  },
+  {
+    "device_id": "low_bias_8",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.4903314123135616,
+    "temporal_correlation": 0.04103989113358419,
+    "drift": -0.006419674874643398,
+    "actual_freq_1": 0.493185,
+    "actual_entropy": 0.9998659861442029,
+    "transition_probs": {
+      "00": 0.26735353535353534,
+      "01": 0.23953535353535355,
+      "10": 0.2394141414141414,
+      "11": 0.2536969696969697
+    }
+  },
+  {
+    "device_id": "low_bias_9",
+    "class": 0,
+    "class_name": "low_bias",
+    "bias_level_target": 0.49173451245471755,
+    "temporal_correlation": 0.03844855622993872,
+    "drift": -0.002018836410562757,
+    "actual_freq_1": 0.49054,
+    "actual_entropy": 0.9997417664171796,
+    "transition_probs": {
+      "00": 0.2686060606060606,
+      "01": 0.2408030303030303,
+      "10": 0.24087373737373738,
+      "11": 0.24971717171717173
+    }
+  },
+  {
+    "device_id": "medium_bias_0",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5588561239329143,
+    "temporal_correlation": 0.14544203586991564,
+    "drift": 0.03750048798122102,
+    "actual_freq_1": 0.560775,
+    "actual_entropy": 0.9893161220821567,
+    "transition_probs": {
+      "00": 0.2288131313131313,
+      "01": 0.21055555555555555,
+      "10": 0.21031818181818182,
+      "11": 0.3503131313131313
+    }
+  },
+  {
+    "device_id": "medium_bias_1",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5606122491414506,
+    "temporal_correlation": 0.0826513168149116,
+    "drift": 0.04810700152834345,
+    "actual_freq_1": 0.559685,
+    "actual_entropy": 0.98969682659164,
+    "transition_probs": {
+      "00": 0.21351515151515152,
+      "01": 0.22677272727272726,
+      "10": 0.2267878787878788,
+      "11": 0.3329242424242424
+    }
+  },
+  {
+    "device_id": "medium_bias_2",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5497549284023051,
+    "temporal_correlation": 0.08044859685393894,
+    "drift": -0.04696990461828037,
+    "actual_freq_1": 0.55119,
+    "actual_entropy": 0.9924258131741426,
+    "transition_probs": {
+      "00": 0.22211616161616163,
+      "01": 0.22697979797979798,
+      "10": 0.22662626262626262,
+      "11": 0.3242777777777778
+    }
+  },
+  {
+    "device_id": "medium_bias_3",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5674292490345424,
+    "temporal_correlation": 0.11688549095652619,
+    "drift": -0.036617895571643314,
+    "actual_freq_1": 0.56683,
+    "actual_entropy": 0.987074482224071,
+    "transition_probs": {
+      "00": 0.21626767676767678,
+      "01": 0.21675757575757576,
+      "10": 0.21702525252525254,
+      "11": 0.34994949494949495
+    }
+  },
+  {
+    "device_id": "medium_bias_4",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5787523813010321,
+    "temporal_correlation": 0.052002315432050576,
+    "drift": 0.028179282674327705,
+    "actual_freq_1": 0.578185,
+    "actual_entropy": 0.9822893234212566,
+    "transition_probs": {
+      "00": 0.19034848484848485,
+      "01": 0.2317070707070707,
+      "10": 0.2314090909090909,
+      "11": 0.34653535353535353
+    }
+  },
+  {
+    "device_id": "medium_bias_5",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5421694682902408,
+    "temporal_correlation": 0.052106312598487504,
+    "drift": -0.04823989004816779,
+    "actual_freq_1": 0.543675,
+    "actual_entropy": 0.994489081595484,
+    "transition_probs": {
+      "00": 0.2215,
+      "01": 0.23473232323232324,
+      "10": 0.2347020202020202,
+      "11": 0.30906565656565654
+    }
+  },
+  {
+    "device_id": "medium_bias_6",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5466273619192027,
+    "temporal_correlation": 0.08884613791162502,
+    "drift": -0.0016333303954277345,
+    "actual_freq_1": 0.545215,
+    "actual_entropy": 0.994093053228873,
+    "transition_probs": {
+      "00": 0.22963636363636364,
+      "01": 0.2253939393939394,
+      "10": 0.22517171717171716,
+      "11": 0.3197979797979798
+    }
+  },
+  {
+    "device_id": "medium_bias_7",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.5550649036868252,
+    "temporal_correlation": 0.08614635658170461,
+    "drift": 0.02540478913925194,
+    "actual_freq_1": 0.556995,
+    "actual_entropy": 0.9906066076538758,
+    "transition_probs": {
+      "00": 0.21746969696969698,
+      "01": 0.22554545454545455,
+      "10": 0.22557070707070706,
+      "11": 0.33141414141414144
+    }
+  },
+  {
+    "device_id": "medium_bias_8",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.566365620612126,
+    "temporal_correlation": 0.14652322673224233,
+    "drift": 0.027378261718532568,
+    "actual_freq_1": 0.566805,
+    "actual_entropy": 0.9870841799575668,
+    "transition_probs": {
+      "00": 0.22354040404040404,
+      "01": 0.2098030303030303,
+      "10": 0.20965656565656565,
+      "11": 0.357
+    }
+  },
+  {
+    "device_id": "medium_bias_9",
+    "class": 1,
+    "class_name": "medium_bias",
+    "bias_level_target": 0.551986499694121,
+    "temporal_correlation": 0.0786955388252147,
+    "drift": -0.025770922478025916,
+    "actual_freq_1": 0.55273,
+    "actual_entropy": 0.9919623710815643,
+    "transition_probs": {
+      "00": 0.21824747474747475,
+      "01": 0.22922727272727272,
+      "10": 0.2289090909090909,
+      "11": 0.32361616161616164
+    }
+  },
+  {
+    "device_id": "high_bias_0",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6298221074910906,
+    "temporal_correlation": 0.20592559622960427,
+    "drift": 0.06300990279914916,
+    "actual_freq_1": 0.62914,
+    "actual_entropy": 0.9513301355028058,
+    "transition_probs": {
+      "00": 0.18518181818181817,
+      "01": 0.18581818181818183,
+      "10": 0.18568686868686868,
+      "11": 0.4433131313131313
+    }
+  },
+  {
+    "device_id": "high_bias_1",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6173119668865316,
+    "temporal_correlation": 0.19731418030982611,
+    "drift": 0.0016540898549895489,
+    "actual_freq_1": 0.617035,
+    "actual_entropy": 0.9601092195968367,
+    "transition_probs": {
+      "00": 0.1931969696969697,
+      "01": 0.18965656565656566,
+      "10": 0.18977272727272726,
+      "11": 0.42737373737373735
+    }
+  },
+  {
+    "device_id": "high_bias_2",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.591606360138267,
+    "temporal_correlation": 0.18202437712582895,
+    "drift": 0.050735966950539516,
+    "actual_freq_1": 0.593135,
+    "actual_entropy": 0.9748249774804641,
+    "transition_probs": {
+      "00": 0.20917676767676768,
+      "01": 0.1975151515151515,
+      "10": 0.19785353535353536,
+      "11": 0.39545454545454545
+    }
+  },
+  {
+    "device_id": "high_bias_3",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6225684631589853,
+    "temporal_correlation": 0.17659950251337922,
+    "drift": -0.011411510011419768,
+    "actual_freq_1": 0.62173,
+    "actual_entropy": 0.9568110082987513,
+    "transition_probs": {
+      "00": 0.18505555555555556,
+      "01": 0.19326767676767675,
+      "10": 0.19312626262626262,
+      "11": 0.42855050505050507
+    }
+  },
+  {
+    "device_id": "high_bias_4",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6215430461917117,
+    "temporal_correlation": 0.17023382829713016,
+    "drift": -0.05203484994395078,
+    "actual_freq_1": 0.62409,
+    "actual_entropy": 0.9551020937541029,
+    "transition_probs": {
+      "00": 0.18071717171717172,
+      "01": 0.19516161616161617,
+      "10": 0.19523232323232323,
+      "11": 0.4288888888888889
+    }
+  },
+  {
+    "device_id": "high_bias_5",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6421147123341482,
+    "temporal_correlation": 0.19917081270364792,
+    "drift": -0.013591192344933098,
+    "actual_freq_1": 0.64112,
+    "actual_entropy": 0.9417495761339773,
+    "transition_probs": {
+      "00": 0.17484343434343436,
+      "01": 0.18402020202020203,
+      "10": 0.1841010101010101,
+      "11": 0.4570353535353535
+    }
+  },
+  {
+    "device_id": "high_bias_6",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6201641060406169,
+    "temporal_correlation": 0.24696027208011356,
+    "drift": -0.0670281591194034,
+    "actual_freq_1": 0.61996,
+    "actual_entropy": 0.9580702680794493,
+    "transition_probs": {
+      "00": 0.2021868686868687,
+      "01": 0.1779040404040404,
+      "10": 0.1776818181818182,
+      "11": 0.44222727272727275
+    }
+  },
+  {
+    "device_id": "high_bias_7",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6251055915775778,
+    "temporal_correlation": 0.23427600814902108,
+    "drift": -0.04865766010438529,
+    "actual_freq_1": 0.628705,
+    "actual_entropy": 0.9516612408755746,
+    "transition_probs": {
+      "00": 0.19246464646464648,
+      "01": 0.17902525252525253,
+      "10": 0.17862626262626263,
+      "11": 0.4498838383838384
+    }
+  },
+  {
+    "device_id": "high_bias_8",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.6044979940499446,
+    "temporal_correlation": 0.17043649199032446,
+    "drift": -0.007631752124676261,
+    "actual_freq_1": 0.603385,
+    "actual_entropy": 0.9689360246776374,
+    "transition_probs": {
+      "00": 0.1970858585858586,
+      "01": 0.19944949494949496,
+      "10": 0.19958080808080808,
+      "11": 0.4038838383838384
+    }
+  },
+  {
+    "device_id": "high_bias_9",
+    "class": 2,
+    "class_name": "high_bias",
+    "bias_level_target": 0.5904652981410065,
+    "temporal_correlation": 0.24015192693891052,
+    "drift": 0.041557102334281684,
+    "actual_freq_1": 0.59149,
+    "actual_entropy": 0.9757114602889565,
+    "transition_probs": {
+      "00": 0.22435858585858587,
+      "01": 0.18411111111111111,
+      "10": 0.18417171717171718,
+      "11": 0.40735858585858586
+    }
+  }
+]
