@@ -16,7 +16,7 @@ import asyncio
 from playwright.async_api import async_playwright
 import os
 
-async def convert_html_to_pdf(html_file='presentation_20slides.html', output_file='presentation_20slides.pdf'):
+async def convert_html_to_pdf(html_file='presentations/presentation_20slides.html', output_file='presentations/presentation_20slides.pdf'):
     """
     Convert HTML presentation to PDF with each slide as a separate page.
     Uses Playwright to render the HTML exactly as it appears in browser.

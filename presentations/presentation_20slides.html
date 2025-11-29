@@ -583,7 +583,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 18px;">
-                    <img src="fig1_bit_frequency_analysis.png" alt="Bit Frequency Analysis" style="max-height: 400px;">
+                    <img src="../figures/fig1_bit_frequency_analysis.png" alt="Bit Frequency Analysis" style="max-height: 400px;">
                 </div>
                 <div class="grid-3">
                     <div class="highlight-box">
@@ -613,7 +613,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 18px;">
-                    <img src="fig3_markov_transitions.png" alt="Markov Transitions" style="max-height: 400px;">
+                    <img src="../figures/fig3_markov_transitions.png" alt="Markov Transitions" style="max-height: 400px;">
                 </div>
                 <div class="grid-3" style="font-size: 19px;">
                     <div class="section-box">
@@ -646,7 +646,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 16px;">
-                    <img src="fig_nn_validation_N30.png" alt="NN Validation N=30" style="max-height: 480px; border: 2px solid var(--secondary-purple);">
+                    <img src="../figures/fig_nn_validation_N30.png" alt="NN Validation N=30" style="max-height: 480px; border: 2px solid var(--secondary-purple);">
                 </div>
                 <div class="highlight-box" style="margin-top: 10px; background: rgba(16, 185, 129, 0.15); border-left-color: #10b981;">
                     <strong>📊 N=30 Validation Evidence:</strong> Neural Network achieves 59% accuracy (p<10⁻⁹), 77% above random baseline (33.3%). Confusion matrix shows balanced performance across 3 bias classes. Original N=3 results replicate at scale with proper statistical power (df=28).
@@ -680,7 +680,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 18px;">
-                    <img src="fig6_nn_architecture_comparison.png" alt="NN Architecture" style="max-height: 420px;">
+                    <img src="../figures/fig6_nn_architecture_comparison.png" alt="NN Architecture" style="max-height: 420px;">
                 </div>
                 <div class="highlight-box">
                     <strong>🔬 Key Insights:</strong>
@@ -702,7 +702,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 16px;">
-                    <img src="fig8_per_device_performance.png" alt="Per-Device Performance" style="max-height: 400px;">
+                    <img src="../figures/fig8_per_device_performance.png" alt="Per-Device Performance" style="max-height: 400px;">
                 </div>
                 <div class="grid-3">
                     <div class="section-box">
@@ -732,7 +732,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 16px;">
-                    <img src="fig_qgan_tournament_N30.png" alt="qGAN Tournament N=30" style="max-height: 480px; border: 2px solid var(--accent-teal);">
+                    <img src="../figures/fig_qgan_tournament_N30.png" alt="qGAN Tournament N=30" style="max-height: 480px; border: 2px solid var(--accent-teal);">
                 </div>
                 <div class="grid-2">
                     <div class="section-box">
@@ -811,7 +811,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 18px;">
-                    <img src="fig5_hardware_comparison.png" alt="Hardware Comparison" style="max-height: 380px;">
+                    <img src="../figures/fig5_hardware_comparison.png" alt="Hardware Comparison" style="max-height: 380px;">
                 </div>
                 <table>
                     <thead>
@@ -861,7 +861,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center; margin-bottom: 16px;">
-                    <img src="fig_correlation_analysis_N30.png" alt="Correlation Analysis N=30" style="max-height: 360px; border: 2px solid var(--primary-blue);">
+                    <img src="../figures/fig_correlation_analysis_N30.png" alt="Correlation Analysis N=30" style="max-height: 360px; border: 2px solid var(--primary-blue);">
                 </div>
                 <div class="two-column">
                     <div class="section-box">
@@ -1030,7 +1030,7 @@
             </div>
             <div class="slide-content">
                 <div style="text-align: center;">
-                    <img src="fig_comprehensive_validation_summary.png" alt="Comprehensive Validation" style="max-height: 600px; width: auto; border: 2px solid var(--highlight);">
+                    <img src="../figures/fig_comprehensive_validation_summary.png" alt="Comprehensive Validation" style="max-height: 600px; width: auto; border: 2px solid var(--highlight);">
                 </div>
             </div>
             <div class="slide-footer">18 / 19</div>
@@ -1045,8 +1045,8 @@
                 <div class="section-box">
                     <div class="section-title">Key Contributions</div>
                     <ol class="numbered-list" style="font-size: 21px;">
-                        <li><strong>Device Fingerprinting (N=30 Validated):</strong> 73.2% balanced accuracy distinguishing synthetic noise profiles (120% above baseline) - validated with r=0.865, p<10⁻⁹</li>
-                        <li><strong>Multi-Method Consistency (Validated):</strong> Three independent approaches (qGAN KL tournament, LR 71.8%, NN 73.2%) with ρ=0.931 Spearman correlation (p<10⁻¹⁴)</li>
+                        <li><strong>Device Fingerprinting (N=30 Validated):</strong> 59% accuracy distinguishing synthetic noise profiles (77% above baseline) - validated with r=0.865, p<10⁻⁹</li>
+                        <li><strong>Multi-Method Consistency (Validated):</strong> Three independent approaches (qGAN KL tournament, LR 60%, NN 59%) with ρ=0.931 Spearman correlation (p<10⁻¹⁴)</li>
                         <li><strong>qGAN Tournament Framework:</strong> 20× distinguishability (p<10⁻⁶⁰) between device classes - within-class KL divergence 0.077±0.07 vs between-class 1.60±1.12</li>
                         <li><strong>Scalability Demonstrated:</strong> N=3 baseline → N=30 validation confirms all metrics replicate at scale with strong statistical significance</li>
                         <li><strong>Proposed Application:</strong> Framework validated on synthetic data; <span style="color: #ef4444; font-weight: bold;">requires testing on real quantum hardware and certified RNG devices</span></li>

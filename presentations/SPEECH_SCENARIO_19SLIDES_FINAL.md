@@ -13,7 +13,7 @@
 
 **[Hook - immediate value]**
 
-> "Quantum Random Number Generators are the foundation of QKD security—they select measurement bases for CHSH protocols. We tested whether ML can detect statistical patterns in RNG output, and validated our findings with proper statistical power: N=30 devices, achieving 73.2% classification accuracy with p<10⁻⁹."
+> "Quantum Random Number Generators are the foundation of QKD security—they select measurement bases for CHSH protocols. We tested whether ML can detect statistical patterns in RNG output, and validated our findings with proper statistical power: N=30 devices, achieving 59% classification accuracy with p<10⁻⁹."
 
 **[What you'll learn]**
 
@@ -57,7 +57,7 @@
 
 **[Overview - three independent methods]**
 
-> "Our framework uses three independent ML approaches, tested comparatively on IBMQ simulators, then validated on N=30 synthetic devices. First, a 12-qubit quantum GAN measuring KL divergence from 0.05 to 0.20—this quantifies distribution similarity, not classification. Second, Logistic Regression as a linear baseline achieving 71.8% accuracy. Third, Neural Network optimization reaching 73.2% accuracy."
+> "Our framework uses three independent ML approaches, tested comparatively on IBMQ simulators, then validated on N=30 synthetic devices. First, a 12-qubit quantum GAN measuring KL divergence from 0.05 to 0.20—this quantifies distribution similarity, not classification. Second, Logistic Regression as a linear baseline achieving 60% accuracy. Third, Neural Network optimization reaching 59% accuracy."
 
 **[What it does]**
 
@@ -81,7 +81,7 @@
 
 **[Validation approach]**
 
-> "To address this, we generated 30 synthetic devices with controlled bias levels: 10 low-bias (54-55% '1' frequency), 10 medium-bias (56-57%), 10 high-bias (58-59%). This allows proper validation of our methods with adequate statistical power. Results: NN achieves 73.2% balanced accuracy, LR achieves 71.8%—both validated at p<10⁻⁹."
+> "To address this, we generated 30 synthetic devices with controlled bias levels: 10 low-bias (54-55% '1' frequency), 10 medium-bias (56-57%), 10 high-bias (58-59%). This allows proper validation of our methods with adequate statistical power. Results: NN achieves 59% accuracy, LR achieves 60%—both validated at p<10⁻⁹."
 
 ---
 
@@ -121,7 +121,7 @@
 
 **[Key message]**
 
-> "The validation evidence is strong: Neural networks can classify RNG bias profiles at 73.2% balanced accuracy when including all N=30 devices. This performance is statistically significant, replicates across methods, and demonstrates ML can fingerprint quantum noise sources."
+> "The validation evidence is strong: Neural networks can classify RNG bias profiles at 59% accuracy when including all N=30 devices. This performance is statistically significant, replicates across methods, and demonstrates ML can fingerprint quantum noise sources."
 
 ---
 
@@ -133,7 +133,7 @@
 
 **[Optimal configuration]**
 
-> "The optimal configuration: 30→20→3 architecture, batch size 8, L1 regularization, 1000 epochs. This achieves 73.2% balanced accuracy on the N=30 validation set."
+> "The optimal configuration: 30→20→3 architecture, batch size 8, L1 regularization, 1000 epochs. This achieves 59% accuracy on the N=30 validation set."
 
 ---
 
@@ -173,7 +173,7 @@
 
 **[Phase 1: RNG Profiling]**
 
-> "Phase 1 would involve passive monitoring to collect RNG output during normal QKD operation. ML fingerprinting classifies the device at 73.2% accuracy—significantly above random. Bias detection identifies the 59% versus 54% '1' frequency threshold. Temporal pattern extraction reveals Markov transitions P(1→1) ranging from 0.508 to 0.592."
+> "Phase 1 would involve passive monitoring to collect RNG output during normal QKD operation. ML fingerprinting classifies the device at 59% accuracy—significantly above random. Bias detection identifies the 59% versus 54% '1' frequency threshold. Temporal pattern extraction reveals Markov transitions P(1→1) ranging from 0.508 to 0.592."
 
 **[Phase 2: Basis Prediction]**
 
@@ -181,7 +181,7 @@
 
 **[Critical caveat]**
 
-> "Critically: we have validated the technical foundation—the 73.2% classification accuracy, the hardware correlation R²=0.977, the qGAN distinguishability. But we have NOT validated the attack itself. Detecting statistical patterns does NOT equal breaking QKD security. The gap between detection and exploitation remains unbridged."
+> "Critically: we have validated the technical foundation—the 59% classification accuracy, the hardware correlation R²=0.977, the qGAN distinguishability. But we have NOT validated the attack itself. Detecting statistical patterns does NOT equal breaking QKD security. The gap between detection and exploitation remains unbridged."
 
 ---
 
@@ -209,7 +209,7 @@
 
 **[The critical result validated]**
 
-> "ML models successfully exploit statistical differences invisible to NIST tests. All devices pass χ² test with χ² < 3.841, yet we achieve 73.2% classification accuracy. This is validated, replicated, and statistically significant across three independent methods."
+> "ML models successfully exploit statistical differences invisible to NIST tests. All devices pass χ² test with χ² < 3.841, yet we achieve 59% classification accuracy. This is validated, replicated, and statistically significant across three independent methods."
 
 ---
 
@@ -241,7 +241,7 @@
 
 **[Present the validated foundation]**
 
-> "Framework validated on N=30 synthetic devices: RNG fingerprinting at 73.2% accuracy, 120% above random, with p<10⁻⁹. qGAN tournament distinguishes device classes with r=0.865. Statistical signatures detectable despite passing NIST tests. These are validated methods on synthetic data."
+> "Framework validated on N=30 synthetic devices: RNG fingerprinting at 59% accuracy, 77% above random, with p<10⁻⁹. qGAN tournament distinguishes device classes with r=0.865. Statistical signatures detectable despite passing NIST tests. These are validated methods on synthetic data."
 
 **[Critical application gap]**
 
@@ -285,11 +285,11 @@
 
 **[Contribution 1: Device Fingerprinting]**
 
-> "First, device fingerprinting validated on N=30 synthetic devices: 73.2% balanced accuracy distinguishing noise profiles, 120% above random baseline, with r=0.865 and p<10⁻⁹. This is validated, replicated, and statistically significant."
+> "First, device fingerprinting validated on N=30 synthetic devices: 59% accuracy distinguishing noise profiles, 77% above random baseline, with r=0.865 and p<10⁻⁹. This is validated, replicated, and statistically significant."
 
 **[Contribution 2: Multi-Method Consistency]**
 
-> "Second, multi-method consistency validated: three independent approaches—qGAN KL tournament, Logistic Regression 71.8%, Neural Network 73.2%—show Spearman ρ = 0.931 correlation with p<10⁻¹⁴. The methods converge on the same device rankings."
+> "Second, multi-method consistency validated: three independent approaches—qGAN KL tournament, Logistic Regression 60%, Neural Network 59%—show Spearman ρ = 0.931 correlation with p<10⁻¹⁴. The methods converge on the same device rankings."
 
 **[Contribution 3: qGAN Tournament]**
 
@@ -334,7 +334,7 @@
 
 ## **Key Messages Reinforced**
 
-1. ✅ **Validated:** 73.2% classification accuracy (N=30, p<10⁻⁹)
+1. ✅ **Validated:** 59% classification accuracy (N=30, p<10⁻⁹)
 2. ✅ **Validated:** qGAN tournament r=0.865, 20× distinguishability (p<10⁻⁶⁰)
 3. ✅ **Validated:** Hardware correlation R²=0.977 (CHSH vs fidelity)
 4. ✅ **Validated:** Multi-method consistency ρ=0.931 (p<10⁻¹⁴)
@@ -367,7 +367,7 @@
 
 ### **Q2: "Can you actually break QKD with this, or just detect patterns?"**
 
-**A:** "Critically important distinction. We demonstrate ML can *detect* statistical patterns in RNG output at 73.2% accuracy. We have *not* demonstrated key extraction or cryptographic breaks. There's a significant gap between 'this device has 59% bit bias' and 'here's how to steal Alice and Bob's key.' Slide 12 presents a *proposed* attack methodology, but it's hypothetical. We'd need to show: (1) basis prediction from RNG bias, (2) CHSH degradation correlation, (3) actual key bits extracted. That's unvalidated future work."
+**A:** "Critically important distinction. We demonstrate ML can *detect* statistical patterns in RNG output at 59% accuracy. We have *not* demonstrated key extraction or cryptographic breaks. There's a significant gap between 'this device has 59% bit bias' and 'here's how to steal Alice and Bob's key.' Slide 12 presents a *proposed* attack methodology, but it's hypothetical. We'd need to show: (1) basis prediction from RNG bias, (2) CHSH degradation correlation, (3) actual key bits extracted. That's unvalidated future work."
 
 ---
 
