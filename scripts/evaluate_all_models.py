@@ -14,6 +14,14 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.metrics import accuracy_score, confusion_matrix, classification_report
 import json
 from datetime import datetime
+from pathlib import Path
+
+# Setup paths
+SCRIPT_DIR = Path(__file__).parent
+ROOT_DIR = SCRIPT_DIR.parent
+DATA_FILE = ROOT_DIR / "AI_2qubits_training_data.txt"
+RESULTS_DIR = ROOT_DIR / "results"
+RESULTS_DIR.mkdir(exist_ok=True)
 
 # Set seeds for reproducibility
 torch.manual_seed(42)
@@ -26,7 +34,7 @@ print(f"Using device: {device}")
 print("\n" + "="*80)
 print("LOADING DATA")
 print("="*80)
-data = np.loadtxt("AI_2qubits_training_data.txt", dtype=str)
+data = np.loadtxt(str(DATA_FILE), dtype=str)
 print(f"Total samples: {len(data)}")
 
 def binary_to_bits(binary_list):
@@ -423,7 +431,7 @@ print(f"\n{'Model':<50} {'Test Acc':<12} {'Status'}")
 print("-"*80)
 
 for model in results["models"]:
-    status = "✓ EXCEEDS ARTICLE" if model.get("exceeds_article_claim", False) else "○"
+    status = "[EXCEEDS]" if model.get("exceeds_article_claim", False) else "        "
     print(f"{model['name']:<50} {model['test_accuracy']*100:>10.2f}%  {status}")
 
 # Find best model
@@ -435,10 +443,10 @@ print(f"Architecture: {best_model['config']['architecture']}")
 print(f"{'='*80}")
 
 # Save results to JSON
-with open('model_evaluation_results.json', 'w') as f:
+with open(str(RESULTS_DIR / 'model_evaluation_results.json'), 'w') as f:
     json.dump(results, f, indent=2)
 
-print(f"\nResults saved to: model_evaluation_results.json")
+print(f"\nResults saved to: {RESULTS_DIR / 'model_evaluation_results.json'}")
 
 # Generate comparison table for presentation
 print("\n" + "="*80)

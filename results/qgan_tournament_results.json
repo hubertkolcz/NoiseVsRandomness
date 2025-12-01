@@ -1,0 +1,37 @@
+{
+  "timestamp": "2025-12-01T09:20:50.311903",
+  "methodology": "qGAN Tournament Evaluation",
+  "description": "KL divergence after training qGAN on each device pair",
+  "interpretation": "Higher KL = more distinguishable devices",
+  "results": {
+    "device_1_vs_2": {
+      "kl_divergence": 0.14917248487472534,
+      "final_generator_loss": 0.6926339864730835,
+      "final_discriminator_loss": 0.6931444406509399
+    },
+    "device_1_vs_3": {
+      "kl_divergence": 0.11570475995540619,
+      "final_generator_loss": 0.6948462724685669,
+      "final_discriminator_loss": 0.6931253671646118
+    },
+    "device_2_vs_3": {
+      "kl_divergence": 0.10971464961767197,
+      "final_generator_loss": 0.6940552592277527,
+      "final_discriminator_loss": 0.693182110786438
+    }
+  },
+  "ranking": [
+    {
+      "pair": "Device 1 vs 2",
+      "kl_divergence": 0.14917248487472534
+    },
+    {
+      "pair": "Device 1 vs 3",
+      "kl_divergence": 0.11570475995540619
+    },
+    {
+      "pair": "Device 2 vs 3",
+      "kl_divergence": 0.10971464961767197
+    }
+  ]
+}

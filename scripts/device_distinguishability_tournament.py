@@ -14,6 +14,16 @@ import matplotlib.pyplot as plt
 from scipy.stats import entropy
 import json
 from datetime import datetime
+from pathlib import Path
+
+# Setup paths
+SCRIPT_DIR = Path(__file__).parent
+ROOT_DIR = SCRIPT_DIR.parent
+DATA_FILE = ROOT_DIR / "AI_2qubits_training_data.txt"
+RESULTS_DIR = ROOT_DIR / "results"
+FIGURES_DIR = ROOT_DIR / "figures"
+RESULTS_DIR.mkdir(exist_ok=True)
+FIGURES_DIR.mkdir(exist_ok=True)
 
 # Reproducibility
 np.random.seed(42)
@@ -25,7 +35,7 @@ print()
 
 # Load data
 print("Loading data from AI_2qubits_training_data.txt...")
-with open('AI_2qubits_training_data.txt', 'r') as file:
+with open(str(DATA_FILE), 'r') as file:
     data = file.readlines()
 
 device_1_data = data[:2000]
@@ -216,10 +226,10 @@ print(f"  Score: {most_distinguishable[1]:.6f}")
 print()
 
 if 'Device 2 vs 3' in most_distinguishable[0] or 'Device 1 vs 3' in most_distinguishable[0]:
-    print("✓ CORRELATION: Pairs involving Device 3 are most distinguishable")
+    print("CORRELATION: Pairs involving Device 3 are most distinguishable")
     print("  This aligns with Device 3 having highest classification accuracy (70%)")
 else:
-    print("⚠ OBSERVATION: Top distinguishable pair may not involve easiest-to-classify device")
+    print("[WARN] OBSERVATION: Top distinguishable pair may not involve easiest-to-classify device")
     print("  This could indicate distributional vs. instance-level differences")
 
 print()
@@ -313,8 +323,8 @@ ax4.set_title('Distinguishability vs Classification Performance', fontsize=14, f
 ax4.grid(alpha=0.3)
 
 plt.tight_layout()
-plt.savefig('fig10_device_distinguishability_final.png', dpi=300, bbox_inches='tight')
-print(f"✓ Figure saved: fig10_device_distinguishability_final.png")
+plt.savefig(str(FIGURES_DIR / 'fig10_device_distinguishability_final.png'), dpi=300, bbox_inches='tight')
+print(f"Figure saved: fig10_device_distinguishability_final.png")
 plt.close()
 
 # Save results
@@ -351,6 +361,14 @@ output = {
         {'pair': pair, 'score': float(score)}
         for pair, score in sorted_pairs
     ],
+    'most_distinguishable': {
+        'pair': sorted_pairs[0][0],
+        'score': float(sorted_pairs[0][1])
+    },
+    'least_distinguishable': {
+        'pair': sorted_pairs[-1][0],
+        'score': float(sorted_pairs[-1][1])
+    },
     'cross_validation': {
         'classification_accuracy_d1': 66.7,
         'classification_accuracy_d2': 65.0,
@@ -358,10 +376,10 @@ output = {
     }
 }
 
-with open('device_distinguishability_tournament_final.json', 'w') as f:
+with open(str(RESULTS_DIR / 'device_distinguishability_tournament_final.json'), 'w') as f:
     json.dump(output, f, indent=2)
 
-print(f"✓ Results saved: device_distinguishability_tournament_final.json")
+print(f"Results saved: {RESULTS_DIR / 'device_distinguishability_tournament_final.json'}")
 print()
 
 print("="*80)

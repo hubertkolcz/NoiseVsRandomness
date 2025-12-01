@@ -1,0 +1,72 @@
+{
+  "timestamp": "2025-12-01T09:46:41.912355",
+  "summary": {
+    "total_claims": 14,
+    "verified": 13,
+    "failed": 1,
+    "unavailable": 0,
+    "phase1_verified": 6,
+    "phase1_failed": 1,
+    "phase1_total": 7,
+    "phase2_verified": 7,
+    "phase2_failed": 0,
+    "phase2_total": 7
+  },
+  "claim_results": {
+    "entropy": true,
+    "frequencies": true,
+    "kl_divergence": true,
+    "markov_transitions": true,
+    "device_distinguishability": true,
+    "nn_accuracy": true,
+    "device3_precision": false,
+    "n30_nn_accuracy": true,
+    "n30_lr_accuracy": true,
+    "n30_correlation": true,
+    "n30_spearman": true,
+    "n30_distinguishability": true,
+    "n30_significance": true,
+    "n30_baseline_improvement": true
+  },
+  "script_results": {
+    "presentation_figures": {
+      "success": true,
+      "elapsed": 8.844040155410767,
+      "stdout": "Loading DoraHacks dataset...\nDevice 1: 2000 samples\nDevice 2: 2000 samples\nDevice 3: 2000 samples\n\nGenerating Figure 1: Bit Frequency Distribution...\nSaved: fig1_bit_frequency_analysis.png\n\nGenerating Figure 2: Statistical Tests...\nSaved: fig2_statistical_tests.png\n\nGenerating Figure 3: Markov Chain Analysis...\nSaved: fig3_markov_transitions.png\n\nGenerating Figure 4: ML Performance...\nSaved: fig4_ml_performance.png\n\nGenerating Figure 5: Hardware Comparison...\nSaved: fig5_hardware_comparison.png\n\n============================================================\nSUMMARY STATISTICS REPORT\n============================================================\n\n1. BIT FREQUENCY ANALYSIS\n   Device 1 mean: 0.54676 \u00b1 0.05194\n   Device 2 mean: 0.56512 \u00b1 0.05388\n   Device 3 mean: 0.49185 \u00b1 0.05127\n\n2. SHANNON ENTROPY\n   Device 1: 0.98578 \u00b1 0.01841 bits\n   Device 2: 0.97916 \u00b1 0.02324 bits\n   Device 3: 0.99218 \u00b1 0.01177 bits\n\n3. CHI-SQUARE TEST\n   Device 1: 1.954 \u00b1 2.507\n   Device 2: 2.858 \u00b1 3.158\n   Device 3: 1.078 \u00b1 1.610\n   Critical value (alpha=0.05): 3.841\n\n4. MARKOV TRANSITION MATRICES\n   Device 1:\n      P(0->0) = 0.4834, P(0->1) = 0.5166\n      P(1->0) = 0.4275, P(1->1) = 0.5725\n   Device 2:\n      P(0->0) = 0.4676, P(0->1) = 0.5324\n      P(1->0) = 0.4085, P(1->1) = 0.5915\n   Device 3:\n      P(0->0) = 0.5244, P(0->1) = 0.4756\n      P(1->0) = 0.4917, P(1->1) = 0.5083\n\n5. DISTINGUISHABILITY METRICS\n   Jensen-Shannon divergence (Device 1 vs 2): 0.000112\n   Jensen-Shannon divergence (Device 2 vs 3): 0.001695\n   Jensen-Shannon divergence (Device 1 vs 3): 0.001446\n\n============================================================\nAll figures generated successfully!\n============================================================\n",
+      "stderr": "C:\\Users\\cp\\Documents\\GitHub\\NoiseVsRandomness\\scripts\\generate_presentation_figures.py:249: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.\n  bp = ax.boxplot([chi2_1, chi2_2, chi2_3], labels=['Device 1', 'Device 2', 'Device 3'],\nC:\\Users\\cp\\Documents\\GitHub\\NoiseVsRandomness\\scripts\\generate_presentation_figures.py:310: UserWarning: This figure includes Axes that are not compatible with tight_layout, so results might be incorrect.\n  plt.tight_layout()\n"
+    },
+    "distinguishability": {
+      "success": true,
+      "elapsed": 0,
+      "stdout": "[Using cached result from device_distinguishability_tournament_final.json]",
+      "stderr": "",
+      "cached": true
+    },
+    "optimized_nn": {
+      "success": true,
+      "elapsed": 0,
+      "stdout": "[Using cached result from optimized_model_results.json]",
+      "stderr": "",
+      "cached": true
+    },
+    "validation_figures": {
+      "success": true,
+      "elapsed": 2.218888998031616,
+      "stdout": "Loading validation data...\nWarning: qgan_tournament_validation_N30.json not found. Creating placeholder.\n\\nSkipping validation figure generation - required data files not found.\nThis is expected during initial benchmark run.\n",
+      "stderr": ""
+    },
+    "qgan_tournament": {
+      "success": true,
+      "elapsed": 0,
+      "stdout": "[Using cached result from qgan_tournament_results.json]",
+      "stderr": "",
+      "cached": true
+    },
+    "n30_validation": {
+      "success": true,
+      "elapsed": 287.00232577323914,
+      "stdout": "================================================================================\nqGAN TOURNAMENT VALIDATION: N=30 DEVICES\n================================================================================\n\nSTEP 1: Generate N=30 synthetic device dataset\n--------------------------------------------------------------------------------\nGenerating Class 0 devices (low bias)...\nGenerating Class 1 devices (medium bias)...\nGenerating Class 2 devices (high bias)...\nTotal samples: 60000\nTotal devices: 30\nSamples per device: 2000\n\nSTEP 2: Compute full KL divergence tournament\n--------------------------------------------------------------------------------\nComputing 435 pairwise KL divergences...\nKL matrix shape: (30, 30)\nNon-zero KL values: 870\nMean KL (all pairs): 1.129879\nStd KL (all pairs): 1.382746\n\nSTEP 3: Analyze KL by class pairs\n--------------------------------------------------------------------------------\nWithin-class KL divergences:\n  Class 0-0: mean=0.047713, std=0.044039, n=45\n  Class 1-1: mean=0.083054, std=0.071758, n=45\n  Class 2-2: mean=0.100712, std=0.100852, n=45\n\nBetween-class KL divergences:\n  Classes 0-1: mean=0.670281, std=0.368555, n=100\n  Classes 0-2: mean=3.179720, std=1.318211, n=100\n  Classes 1-2: mean=0.960805, std=0.705297, n=100\n\nSTEP 4: Train neural network classifier\n--------------------------------------------------------------------------------\nTrain accuracy: 0.6337\nTest accuracy: 0.5921\n\nSTEP 4B: Train logistic regression classifier\n--------------------------------------------------------------------------------\nTrain accuracy: 0.6139\nTest accuracy: 0.6146\n\nSTEP 5: Compute per-device classification accuracy\n--------------------------------------------------------------------------------\nPer-device accuracies (NN):\n  Device 0 (class 0): 0.7225\n  Device 1 (class 0): 0.7420\n  Device 2 (class 0): 0.6890\n  Device 3 (class 0): 0.7665\n  Device 4 (class 0): 0.6015\n  ... (30 devices total)\n\nPer-device accuracies (LR):\n  Device 0 (class 0): 0.7340\n  Device 1 (class 0): 0.7290\n  Device 2 (class 0): 0.6890\n  Device 3 (class 0): 0.7655\n  Device 4 (class 0): 0.5905\n  ... (30 devices total)\n\nSTEP 6: Test correlation between KL and accuracy\n--------------------------------------------------------------------------------\nNeural Network:\n  Pearson correlation:  r = 0.864814\n  P-value:              p = 0.000000\n  Spearman correlation: rho = 0.930590\n  P-value:              p = 0.000000\n  Statistically significant (p<0.05): True\n\nLogistic Regression:\n  Pearson correlation:  r = 0.918625\n  P-value:              p = 0.000000\n  Spearman correlation: rho = 0.938035\n  P-value:              p = 0.000000\n  Statistically significant (p<0.05): True\n\n================================================================================\nCOMPARISON WITH ORIGINAL N=3 STUDY\n================================================================================\nOriginal claim:\n  Device 1 vs 2: KL = 0.050 (low distinguishability)\n  Device 1 vs 3: KL = 0.205 (high distinguishability)\n  Device 2 vs 3: KL = 0.202 (high distinguishability)\n  Correlation (qGAN-NN): r = 0.949\n\nN=30 validation:\n  Within-class mean KL: 0.077160\n  Between-class mean KL: 1.603602\n  Correlation (KL-NN): r = 0.864814 (p = 0.000000)\n\nMann-Whitney U test (between > within):\n  U-statistic = 40054.00\n  P-value = 3.259663e-60\n  Conclusion: Between-class KLs ARE significantly larger\n\nResults saved to: qgan_tournament_validation_N30.json\n\nSTEP 7: Generate visualization\n--------------------------------------------------------------------------------\nVisualization saved to: qgan_tournament_validation_N30.png\n\n================================================================================\nVALIDATION COMPLETE\n================================================================================\n",
+      "stderr": "C:\\Users\\cp\\anaconda3\\Lib\\site-packages\\sklearn\\linear_model\\_logistic.py:1247: FutureWarning: 'multi_class' was deprecated in version 1.5 and will be removed in 1.7. From then on, it will always use 'multinomial'. Leave it to its default value to avoid this warning.\n  warnings.warn(\nC:\\Users\\cp\\Documents\\GitHub\\NoiseVsRandomness\\scripts\\validate_qgan_tournament_N30.py:671: MatplotlibDeprecationWarning: The 'labels' parameter of boxplot() has been renamed 'tick_labels' since Matplotlib 3.9; support for the old name will be dropped in 3.11.\n  ax2.boxplot([all_within, all_between], labels=['Within-class', 'Between-class'])\n"
+    }
+  }
+}

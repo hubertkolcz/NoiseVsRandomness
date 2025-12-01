@@ -17,11 +17,22 @@ Original N=3 Claims:
 - Correlation with NN accuracy: r = 0.949 (claimed but unvalidated)
 """
 
+import os
+import sys
+
+# Fix Intel Fortran/MKL threading issues on Windows
+os.environ['MKL_NUM_THREADS'] = '1'
+os.environ['OMP_NUM_THREADS'] = '1'
+os.environ['KMP_DUPLICATE_LIB_OK'] = 'TRUE'
+os.environ['FOR_DISABLE_CONSOLE_CTRL_HANDLER'] = '1'
+
 import numpy as np
 from scipy.stats import entropy, pearsonr, spearmanr, mannwhitneyu
 from scipy.special import kl_div
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import accuracy_score
+from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import StandardScaler
 import torch
 import torch.nn as nn
 from torch.utils.data import TensorDataset, DataLoader
@@ -29,6 +40,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 from datetime import datetime
+from pathlib import Path
+
+# Setup paths
+SCRIPT_DIR = Path(__file__).parent
+ROOT_DIR = SCRIPT_DIR.parent
+RESULTS_DIR = ROOT_DIR / "results"
+FIGURES_DIR = ROOT_DIR / "figures"
+RESULTS_DIR.mkdir(exist_ok=True)
+FIGURES_DIR.mkdir(exist_ok=True)
 
 # Set seeds
 np.random.seed(42)
@@ -334,6 +354,44 @@ def compute_per_device_accuracy_from_preds(predictions, device_metadata, samples
     return device_accuracies
 
 
+def train_logistic_regression(X_train, y_train, X_test, y_test):
+    """Train logistic regression classifier for device classification"""
+    # Scale features for logistic regression
+    scaler = StandardScaler()
+    X_train_scaled = scaler.fit_transform(X_train)
+    X_test_scaled = scaler.transform(X_test)
+    
+    # Train logistic regression with L2 regularization
+    lr_model = LogisticRegression(
+        max_iter=1000,
+        random_state=42,
+        solver='lbfgs',
+        multi_class='multinomial',
+        C=1.0  # Inverse of regularization strength
+    )
+    
+    lr_model.fit(X_train_scaled, y_train)
+    
+    # Evaluate
+    train_preds = lr_model.predict(X_train_scaled)
+    train_acc = accuracy_score(y_train, train_preds)
+    
+    test_preds = lr_model.predict(X_test_scaled)
+    test_acc = accuracy_score(y_test, test_preds)
+    
+    # Per-device predictions (on full dataset)
+    X_full_scaled = scaler.transform(np.vstack([X_train, X_test]))
+    all_preds = lr_model.predict(X_full_scaled)
+    
+    return {
+        'model': lr_model,
+        'scaler': scaler,
+        'train_accuracy': train_acc,
+        'test_accuracy': test_acc,
+        'all_predictions': all_preds
+    }
+
+
 # ============================================================================
 # STATISTICAL ANALYSIS
 # ============================================================================
@@ -457,11 +515,18 @@ def main():
     print(f"Test accuracy: {nn_results['test_accuracy']:.4f}")
     print()
     
+    print("STEP 4B: Train logistic regression classifier")
+    print("-" * 80)
+    lr_results = train_logistic_regression(X_train, y_train, X_test, y_test)
+    print(f"Train accuracy: {lr_results['train_accuracy']:.4f}")
+    print(f"Test accuracy: {lr_results['test_accuracy']:.4f}")
+    print()
+    
     print("STEP 5: Compute per-device classification accuracy")
     print("-" * 80)
     samples_per_device = len(X) // len(device_metadata)
     
-    # Get predictions on FULL dataset (to match device ordering)
+    # Get NN predictions on FULL dataset (to match device ordering)
     with torch.no_grad():
         nn_results['model'].eval()
         full_outputs = nn_results['model'](torch.FloatTensor(X))
@@ -469,20 +534,40 @@ def main():
     
     device_accuracies = compute_per_device_accuracy_from_preds(full_preds, device_metadata, samples_per_device)
     
-    print("Per-device accuracies:")
+    # Get LR predictions on FULL dataset
+    X_full_scaled = lr_results['scaler'].transform(X)
+    lr_full_preds = lr_results['model'].predict(X_full_scaled)
+    lr_device_accuracies = compute_per_device_accuracy_from_preds(lr_full_preds, device_metadata, samples_per_device)
+    
+    print("Per-device accuracies (NN):")
     for d in device_accuracies[:5]:  # Show first 5
         print(f"  Device {d['device_id']} (class {d['class']}): {d['accuracy']:.4f}")
     print(f"  ... ({len(device_accuracies)} devices total)")
+    
+    print("\nPer-device accuracies (LR):")
+    for d in lr_device_accuracies[:5]:  # Show first 5
+        print(f"  Device {d['device_id']} (class {d['class']}): {d['accuracy']:.4f}")
+    print(f"  ... ({len(lr_device_accuracies)} devices total)")
     print()
     
     print("STEP 6: Test correlation between KL and accuracy")
     print("-" * 80)
     correlation_results = test_correlation_with_accuracy(kl_matrix, device_accuracies)
-    print(f"Pearson correlation:  r = {correlation_results['pearson_r']:.6f}")
-    print(f"P-value:              p = {correlation_results['pearson_p']:.6f}")
-    print(f"Spearman correlation: rho = {correlation_results['spearman_r']:.6f}")
-    print(f"P-value:              p = {correlation_results['spearman_p']:.6f}")
-    print(f"Statistically significant (p<0.05): {correlation_results['significant']}")
+    lr_correlation_results = test_correlation_with_accuracy(kl_matrix, lr_device_accuracies)
+    
+    print("Neural Network:")
+    print(f"  Pearson correlation:  r = {correlation_results['pearson_r']:.6f}")
+    print(f"  P-value:              p = {correlation_results['pearson_p']:.6f}")
+    print(f"  Spearman correlation: rho = {correlation_results['spearman_r']:.6f}")
+    print(f"  P-value:              p = {correlation_results['spearman_p']:.6f}")
+    print(f"  Statistically significant (p<0.05): {correlation_results['significant']}")
+    
+    print("\nLogistic Regression:")
+    print(f"  Pearson correlation:  r = {lr_correlation_results['pearson_r']:.6f}")
+    print(f"  P-value:              p = {lr_correlation_results['pearson_p']:.6f}")
+    print(f"  Spearman correlation: rho = {lr_correlation_results['spearman_r']:.6f}")
+    print(f"  P-value:              p = {lr_correlation_results['spearman_p']:.6f}")
+    print(f"  Statistically significant (p<0.05): {lr_correlation_results['significant']}")
     print()
     
     print("="*80)
@@ -525,14 +610,26 @@ def main():
         },
         'kl_stats': kl_stats,
         'classification': {
-            'train_accuracy': nn_results['train_accuracy'],
-            'test_accuracy': nn_results['test_accuracy']
+            'nn_train_accuracy': nn_results['train_accuracy'],
+            'nn_test_accuracy': nn_results['test_accuracy'],
+            'lr_train_accuracy': lr_results['train_accuracy'],
+            'lr_test_accuracy': lr_results['test_accuracy'],
+            'train_accuracy': nn_results['train_accuracy'],  # Keep for backward compatibility
+            'test_accuracy': nn_results['test_accuracy']      # Keep for backward compatibility
         },
         'correlation': {
-            'pearson_r': float(correlation_results['pearson_r']),
-            'pearson_p': float(correlation_results['pearson_p']),
-            'spearman_r': float(correlation_results['spearman_r']),
-            'spearman_p': float(correlation_results['spearman_p']),
+            'nn_pearson_r': float(correlation_results['pearson_r']),
+            'nn_pearson_p': float(correlation_results['pearson_p']),
+            'nn_spearman_r': float(correlation_results['spearman_r']),
+            'nn_spearman_p': float(correlation_results['spearman_p']),
+            'lr_pearson_r': float(lr_correlation_results['pearson_r']),
+            'lr_pearson_p': float(lr_correlation_results['pearson_p']),
+            'lr_spearman_r': float(lr_correlation_results['spearman_r']),
+            'lr_spearman_p': float(lr_correlation_results['spearman_p']),
+            'pearson_r': float(correlation_results['pearson_r']),      # Keep for backward compatibility
+            'pearson_p': float(correlation_results['pearson_p']),      # Keep for backward compatibility
+            'spearman_r': float(correlation_results['spearman_r']),    # Keep for backward compatibility
+            'spearman_p': float(correlation_results['spearman_p']),    # Keep for backward compatibility
             'significant': bool(correlation_results['significant'])
         },
         'original_vs_validation': {
@@ -550,7 +647,7 @@ def main():
         }
     }
     
-    with open('qgan_tournament_validation_N30.json', 'w') as f:
+    with open(str(RESULTS_DIR / 'qgan_tournament_validation_N30.json'), 'w') as f:
         json.dump(results, f, indent=2)
     
     print("Results saved to: qgan_tournament_validation_N30.json")
@@ -607,7 +704,7 @@ def main():
     ax4.grid(True, alpha=0.3, axis='y')
     
     plt.tight_layout()
-    plt.savefig('qgan_tournament_validation_N30.png', dpi=150, bbox_inches='tight')
+    plt.savefig(str(FIGURES_DIR / 'qgan_tournament_validation_N30.png'), dpi=150, bbox_inches='tight')
     print("Visualization saved to: qgan_tournament_validation_N30.png")
     print()
     

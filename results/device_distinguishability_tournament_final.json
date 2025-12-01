@@ -1,0 +1,57 @@
+{
+  "timestamp": "2025-12-01T08:26:45.449695",
+  "methodology": "qGAN-Inspired Distributional Distance Tournament",
+  "description": "Direct KL divergence comparison across multiple feature representations",
+  "feature_dimensions": {
+    "bit_position": 64,
+    "two_bit_pattern": 4096,
+    "difference_grid": 4096
+  },
+  "results": {
+    "device_1_vs_2": {
+      "composite_score": 0.04950669939997305,
+      "bit_freq_kl": 0.00046093765956266655,
+      "pattern_freq_kl": 0.0011818577749436836,
+      "diff_grid_kl": 0.12235442189520761
+    },
+    "device_1_vs_3": {
+      "composite_score": 0.20516314588007448,
+      "bit_freq_kl": 0.006121208107098113,
+      "pattern_freq_kl": 0.012460335337052358,
+      "diff_grid_kl": 0.4973869253095848
+    },
+    "device_2_vs_3": {
+      "composite_score": 0.20176612808656003,
+      "bit_freq_kl": 0.00696886228837411,
+      "pattern_freq_kl": 0.014006305611438091,
+      "diff_grid_kl": 0.48692458346077494
+    }
+  },
+  "ranking": [
+    {
+      "pair": "Device 1 vs 3",
+      "score": 0.20516314588007448
+    },
+    {
+      "pair": "Device 2 vs 3",
+      "score": 0.20176612808656003
+    },
+    {
+      "pair": "Device 1 vs 2",
+      "score": 0.04950669939997305
+    }
+  ],
+  "most_distinguishable": {
+    "pair": "Device 1 vs 3",
+    "score": 0.20516314588007448
+  },
+  "least_distinguishable": {
+    "pair": "Device 1 vs 2",
+    "score": 0.04950669939997305
+  },
+  "cross_validation": {
+    "classification_accuracy_d1": 66.7,
+    "classification_accuracy_d2": 65.0,
+    "classification_accuracy_d3": 70.0
+  }
+}

@@ -1,0 +1,433 @@
+{
+  "metadata": {
+    "timestamp": "2025-12-01T10:37:14.381862",
+    "total_samples": 6000,
+    "device_counts": [
+      2000,
+      2000,
+      2000
+    ],
+    "baseline_random_accuracy": 33.33,
+    "dorahacks_challenge_goal": 54.0,
+    "article_best_reported": 58.67
+  },
+  "models": [
+    {
+      "name": "Article Model (30-20-3, L1=0.002)",
+      "config": {
+        "architecture": "100->30->20->3",
+        "hyperparameters": {
+          "epochs": 1000,
+          "batch_size": 8,
+          "optimizer": {
+            "type": "Adam",
+            "lr": 0.001
+          },
+          "l1_lambda": 0.0,
+          "dropout": 0.2,
+          "split": "80-20",
+          "seed": 89
+        }
+      },
+      "train_accuracy": 0.5670833333333334,
+      "test_accuracy": 0.5733333333333334,
+      "best_train_accuracy": 0.5635416666666667,
+      "confusion_matrix": [
+        [
+          166,
+          203,
+          54
+        ],
+        [
+          111,
+          259,
+          21
+        ],
+        [
+          98,
+          25,
+          263
+        ]
+      ],
+      "per_class_metrics": {
+        "device_1": {
+          "precision": 0.44266666666666665,
+          "recall": 0.39243498817966904,
+          "f1-score": 0.41604010025062654,
+          "support": 423.0
+        },
+        "device_2": {
+          "precision": 0.5318275154004107,
+          "recall": 0.6624040920716112,
+          "f1-score": 0.5899772209567198,
+          "support": 391.0
+        },
+        "device_3": {
+          "precision": 0.7781065088757396,
+          "recall": 0.6813471502590673,
+          "f1-score": 0.7265193370165746,
+          "support": 386.0
+        }
+      },
+      "improvement_over_random_pct": 72.01720172017203,
+      "improvement_over_dorahacks_pct": 6.172839506172838,
+      "exceeds_article_claim": false
+    },
+    {
+      "name": "Article Model (30-20-3, no L1)",
+      "config": {
+        "architecture": "100->30->20->3",
+        "hyperparameters": {
+          "epochs": 1000,
+          "batch_size": 8,
+          "optimizer": {
+            "type": "Adam",
+            "lr": 0.001
+          },
+          "l1_lambda": 0.0,
+          "dropout": 0.2,
+          "split": "80-20",
+          "seed": 89
+        }
+      },
+      "train_accuracy": 0.82875,
+      "test_accuracy": 0.5116666666666667,
+      "best_train_accuracy": 0.76,
+      "confusion_matrix": [
+        [
+          114,
+          210,
+          99
+        ],
+        [
+          100,
+          232,
+          59
+        ],
+        [
+          66,
+          52,
+          268
+        ]
+      ],
+      "per_class_metrics": {
+        "device_1": {
+          "precision": 0.40714285714285714,
+          "recall": 0.2695035460992908,
+          "f1-score": 0.32432432432432434,
+          "support": 423.0
+        },
+        "device_2": {
+          "precision": 0.46963562753036436,
+          "recall": 0.5933503836317136,
+          "f1-score": 0.5242937853107345,
+          "support": 391.0
+        },
+        "device_3": {
+          "precision": 0.6291079812206573,
+          "recall": 0.694300518134715,
+          "f1-score": 0.6600985221674877,
+          "support": 386.0
+        }
+      },
+      "improvement_over_random_pct": 53.515351535153535,
+      "improvement_over_dorahacks_pct": -5.246913580246911,
+      "exceeds_article_claim": false
+    },
+    {
+      "name": "Baseline Model (20-20-3, L2=0.0005)",
+      "config": {
+        "architecture": "100->20->20->3",
+        "hyperparameters": {
+          "epochs": 1000,
+          "batch_size": 8,
+          "optimizer": {
+            "type": "Adam",
+            "lr": 0.001,
+            "weight_decay": 0.0005
+          },
+          "l1_lambda": 0.0,
+          "dropout": 0.2,
+          "split": "80-20",
+          "seed": 42
+        }
+      },
+      "train_accuracy": 0.79875,
+      "test_accuracy": 0.515,
+      "best_train_accuracy": 0.73125,
+      "confusion_matrix": [
+        [
+          168,
+          165,
+          90
+        ],
+        [
+          134,
+          203,
+          54
+        ],
+        [
+          98,
+          41,
+          247
+        ]
+      ],
+      "per_class_metrics": {
+        "device_1": {
+          "precision": 0.42,
+          "recall": 0.3971631205673759,
+          "f1-score": 0.4082624544349939,
+          "support": 423.0
+        },
+        "device_2": {
+          "precision": 0.4963325183374083,
+          "recall": 0.5191815856777494,
+          "f1-score": 0.5075,
+          "support": 391.0
+        },
+        "device_3": {
+          "precision": 0.6317135549872123,
+          "recall": 0.6398963730569949,
+          "f1-score": 0.6357786357786358,
+          "support": 386.0
+        }
+      },
+      "improvement_over_random_pct": 54.51545154515453,
+      "improvement_over_dorahacks_pct": -4.629629629629633,
+      "exceeds_article_claim": false
+    },
+    {
+      "name": "Article Model (30-20-3, batch=4)",
+      "config": {
+        "architecture": "100->30->20->3",
+        "hyperparameters": {
+          "epochs": 500,
+          "batch_size": 4,
+          "optimizer": {
+            "type": "Adam",
+            "lr": 0.001
+          },
+          "l1_lambda": 0.002,
+          "dropout": 0.2,
+          "split": "80-20",
+          "seed": 0
+        }
+      },
+      "train_accuracy": 0.5645833333333333,
+      "test_accuracy": 0.5708333333333333,
+      "best_train_accuracy": 0.515,
+      "confusion_matrix": [
+        [
+          117,
+          179,
+          127
+        ],
+        [
+          89,
+          243,
+          59
+        ],
+        [
+          45,
+          16,
+          325
+        ]
+      ],
+      "per_class_metrics": {
+        "device_1": {
+          "precision": 0.46613545816733065,
+          "recall": 0.2765957446808511,
+          "f1-score": 0.34718100890207715,
+          "support": 423.0
+        },
+        "device_2": {
+          "precision": 0.5547945205479452,
+          "recall": 0.6214833759590793,
+          "f1-score": 0.586248492159228,
+          "support": 391.0
+        },
+        "device_3": {
+          "precision": 0.6360078277886497,
+          "recall": 0.8419689119170984,
+          "f1-score": 0.7246376811594203,
+          "support": 386.0
+        }
+      },
+      "improvement_over_random_pct": 71.26712671267127,
+      "improvement_over_dorahacks_pct": 5.709876543209864,
+      "exceeds_article_claim": false
+    },
+    {
+      "name": "Article Model (30-20-3, 70-30 split)",
+      "config": {
+        "architecture": "100->30->20->3",
+        "hyperparameters": {
+          "epochs": 500,
+          "batch_size": 8,
+          "optimizer": {
+            "type": "Adam",
+            "lr": 0.001
+          },
+          "l1_lambda": 0.002,
+          "dropout": 0.2,
+          "split": "70-30",
+          "seed": 42
+        }
+      },
+      "train_accuracy": 0.5885714285714285,
+      "test_accuracy": 0.5572222222222222,
+      "best_train_accuracy": 0.5733333333333334,
+      "confusion_matrix": [
+        [
+          220,
+          275,
+          103
+        ],
+        [
+          177,
+          354,
+          72
+        ],
+        [
+          125,
+          45,
+          429
+        ]
+      ],
+      "per_class_metrics": {
+        "device_1": {
+          "precision": 0.421455938697318,
+          "recall": 0.36789297658862874,
+          "f1-score": 0.39285714285714285,
+          "support": 598.0
+        },
+        "device_2": {
+          "precision": 0.5252225519287834,
+          "recall": 0.5870646766169154,
+          "f1-score": 0.5544244322631167,
+          "support": 603.0
+        },
+        "device_3": {
+          "precision": 0.7102649006622517,
+          "recall": 0.7161936560934892,
+          "f1-score": 0.713216957605985,
+          "support": 599.0
+        }
+      },
+      "improvement_over_random_pct": 67.18338500516717,
+      "improvement_over_dorahacks_pct": 3.189300411522618,
+      "exceeds_article_claim": false
+    },
+    {
+      "name": "Compressed Model (20-10-3, limited data)",
+      "config": {
+        "architecture": "100->20->10->3",
+        "hyperparameters": {
+          "epochs": 300,
+          "batch_size": 8,
+          "optimizer": {
+            "type": "Adam",
+            "lr": 0.001
+          },
+          "l1_lambda": 0.001,
+          "dropout": 0.2,
+          "split": "30-70",
+          "seed": 42
+        }
+      },
+      "train_accuracy": 0.7022222222222222,
+      "test_accuracy": 0.4961904761904762,
+      "best_train_accuracy": 0.6788888888888889,
+      "confusion_matrix": [
+        [
+          736,
+          400,
+          243
+        ],
+        [
+          685,
+          537,
+          181
+        ],
+        [
+          530,
+          77,
+          811
+        ]
+      ],
+      "per_class_metrics": {
+        "device_1": {
+          "precision": 0.37724243977447464,
+          "recall": 0.5337200870195794,
+          "f1-score": 0.44204204204204206,
+          "support": 1379.0
+        },
+        "device_2": {
+          "precision": 0.5295857988165681,
+          "recall": 0.3827512473271561,
+          "f1-score": 0.44435250310302027,
+          "support": 1403.0
+        },
+        "device_3": {
+          "precision": 0.6566801619433198,
+          "recall": 0.5719322990126939,
+          "f1-score": 0.6113833396155296,
+          "support": 1418.0
+        }
+      },
+      "improvement_over_random_pct": 48.87203006014887,
+      "improvement_over_dorahacks_pct": -8.112874779541453,
+      "exceeds_article_claim": false
+    },
+    {
+      "name": "Logistic Regression",
+      "config": {
+        "architecture": "Linear (100->3)",
+        "hyperparameters": {
+          "split": "70-30",
+          "max_iter": 1000,
+          "seed": 42
+        }
+      },
+      "train_accuracy": null,
+      "test_accuracy": 0.5522222222222222,
+      "confusion_matrix": [
+        [
+          218,
+          262,
+          154
+        ],
+        [
+          159,
+          344,
+          88
+        ],
+        [
+          89,
+          54,
+          432
+        ]
+      ],
+      "per_class_metrics": {
+        "device_1": {
+          "precision": 0.4678111587982833,
+          "recall": 0.3438485804416404,
+          "f1-score": 0.39636363636363636,
+          "support": 634.0
+        },
+        "device_2": {
+          "precision": 0.5212121212121212,
+          "recall": 0.5820642978003384,
+          "f1-score": 0.5499600319744204,
+          "support": 591.0
+        },
+        "device_3": {
+          "precision": 0.6409495548961425,
+          "recall": 0.7513043478260869,
+          "f1-score": 0.6917534027221778,
+          "support": 575.0
+        }
+      }
+    }
+  ]
+}

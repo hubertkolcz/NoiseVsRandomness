@@ -21,6 +21,15 @@ import matplotlib.pyplot as plt
 import seaborn as sns
 import json
 from datetime import datetime
+from pathlib import Path
+
+# Setup paths
+SCRIPT_DIR = Path(__file__).parent
+ROOT_DIR = SCRIPT_DIR.parent
+RESULTS_DIR = ROOT_DIR / "results"
+FIGURES_DIR = ROOT_DIR / "figures"
+RESULTS_DIR.mkdir(exist_ok=True)
+FIGURES_DIR.mkdir(exist_ok=True)
 
 # Set random seeds for reproducibility
 np.random.seed(42)
@@ -590,7 +599,7 @@ def main():
     print(f"      Class distribution: {np.bincount(y)}")
     
     # Save ground truth
-    with open('synthetic_ground_truth.json', 'w') as f:
+    with open(str(RESULTS_DIR / 'synthetic_ground_truth.json'), 'w') as f:
         # Convert numpy types to native Python types for JSON serialization
         serializable_metadata = []
         for m in device_metadata:
@@ -763,7 +772,7 @@ def main():
         }
     }
     
-    with open('synthetic_validation_results.json', 'w') as f:
+    with open(str(RESULTS_DIR / 'synthetic_validation_results.json'), 'w') as f:
         json.dump(results_summary, f, indent=2)
     
     print("   Saved: synthetic_validation_results.json")

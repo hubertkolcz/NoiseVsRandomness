@@ -21,10 +21,34 @@ from scipy.stats import entropy
 import json
 from datetime import datetime
 import time
+from pathlib import Path
+
+# Setup paths
+SCRIPT_DIR = Path(__file__).parent
+ROOT_DIR = SCRIPT_DIR.parent
+DATA_FILE = ROOT_DIR / "AI_2qubits_training_data.txt"
+RESULTS_DIR = ROOT_DIR / "results"
+FIGURES_DIR = ROOT_DIR / "figures"
+RESULTS_DIR.mkdir(exist_ok=True)
+FIGURES_DIR.mkdir(exist_ok=True)
 
 # Reproducibility
 np.random.seed(42)
 torch.manual_seed(42)
+
+# Device selection
+device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+print(f"Using device: {device}")
+if torch.cuda.is_available():
+    torch.cuda.manual_seed(42)
+    torch.cuda.manual_seed_all(42)
+    # Enable GPU optimizations
+    torch.backends.cudnn.benchmark = True
+    torch.backends.cuda.matmul.allow_tf32 = True
+    torch.backends.cudnn.allow_tf32 = True
+    print(f"GPU: {torch.cuda.get_device_name(0)}")
+    print(f"cuDNN benchmark: Enabled")
+    print(f"TF32 compute: Enabled")
 
 print("="*80)
 print("qGAN TOURNAMENT EVALUATION")
@@ -33,7 +57,7 @@ print()
 
 # Load data
 print("Loading data from AI_2qubits_training_data.txt...")
-with open('AI_2qubits_training_data.txt', 'r') as file:
+with open(str(DATA_FILE), 'r') as file:
     data = file.readlines()
 
 # Split into three device datasets
@@ -103,8 +127,10 @@ class Discriminator(nn.Module):
 
 # Simple Generator (for simplicity, using classical NN instead of quantum)
 class Generator(nn.Module):
-    def __init__(self, output_size):
+    def __init__(self, output_size, device=None):
         super(Generator, self).__init__()
+        self.device = device if device is not None else torch.device('cpu')
+        self.output_size = output_size
         self.linear1 = nn.Linear(output_size, 128)
         self.relu1 = nn.ReLU()
         self.linear2 = nn.Linear(128, 256)
@@ -114,7 +140,7 @@ class Generator(nn.Module):
         
     def forward(self):
         # Generator takes no input, learns to generate distribution
-        x = torch.randn(4096)  # 64x64 = 4096
+        x = torch.randn(self.output_size, device=self.device)  # 64x64 = 4096
         x = self.linear1(x)
         x = self.relu1(x)
         x = self.linear2(x)
@@ -130,16 +156,25 @@ def adversarial_loss(input_val, target, weights):
     total_loss = -torch.sum(weighted_loss)
     return total_loss
 
-def train_qgan(real_distribution, n_epochs=100, lr=0.01):
+def train_qgan(real_distribution, n_epochs=100, lr=0.01, device=None):
     """
     Train qGAN to match real_distribution
     Returns: final KL divergence, training history
+    
+    Args:
+        real_distribution: Target distribution to match
+        n_epochs: Number of training epochs
+        lr: Learning rate
+        device: PyTorch device (defaults to global device if None)
     """
+    if device is None:
+        device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
+    
     num_qnn_outputs = 4096  # 64x64 grid
-    device = torch.device("cpu")
+    use_amp = torch.cuda.is_available()  # Automatic Mixed Precision
     
     # Initialize models
-    generator = Generator(num_qnn_outputs).to(device)
+    generator = Generator(num_qnn_outputs, device=device).to(device)
     discriminator = Discriminator(2).to(device)  # 2D input (x,y coordinates)
     
     # Optimizers
@@ -147,14 +182,17 @@ def train_qgan(real_distribution, n_epochs=100, lr=0.01):
     generator_optimizer = Adam(generator.parameters(), lr=lr, betas=(b1, b2), weight_decay=0.005)
     discriminator_optimizer = Adam(discriminator.parameters(), lr=lr, betas=(b1, b2), weight_decay=0.005)
     
-    # Prepare data
-    real_dist = torch.tensor(real_distribution.reshape(-1, 1), dtype=torch.float32).to(device)
+    # AMP setup
+    scaler = torch.amp.GradScaler('cuda') if use_amp else None
+    
+    # Prepare data (with non-blocking transfer if GPU)
+    real_dist = torch.tensor(real_distribution.reshape(-1, 1), dtype=torch.float32).to(device, non_blocking=use_amp)
     coords = np.linspace(0, 1, 64)
     grid_elements = np.transpose([np.tile(coords, len(coords)), np.repeat(coords, len(coords))])
-    samples = torch.tensor(grid_elements, dtype=torch.float32).to(device)
+    samples = torch.tensor(grid_elements, dtype=torch.float32).to(device, non_blocking=use_amp)
     
-    valid = torch.ones(num_qnn_outputs, 1, dtype=torch.float32).to(device)
-    fake = torch.zeros(num_qnn_outputs, 1, dtype=torch.float32).to(device)
+    valid = torch.ones(num_qnn_outputs, 1, dtype=torch.float32).to(device, non_blocking=use_amp)
+    fake = torch.zeros(num_qnn_outputs, 1, dtype=torch.float32).to(device, non_blocking=use_amp)
     
     # Training history
     history = {
@@ -166,27 +204,52 @@ def train_qgan(real_distribution, n_epochs=100, lr=0.01):
     start_time = time.time()
     
     for epoch in range(n_epochs):
-        # Generate distribution
-        gen_dist = generator().reshape(-1, 1)
-        disc_value = discriminator(samples)
-        
-        # Train Generator
-        generator_optimizer.zero_grad()
-        generator_loss = adversarial_loss(disc_value, valid, gen_dist)
-        generator_loss.backward(retain_graph=True)
-        generator_optimizer.step()
-        
-        # Train Discriminator
-        discriminator_optimizer.zero_grad()
-        real_loss = adversarial_loss(disc_value, valid, real_dist)
-        fake_loss = adversarial_loss(disc_value, fake, gen_dist.detach())
-        discriminator_loss = (real_loss + fake_loss) / 2
-        discriminator_loss.backward()
-        discriminator_optimizer.step()
+        # Generate distribution and discriminate (with AMP if GPU available)
+        if use_amp:
+            with torch.amp.autocast('cuda'):
+                gen_dist = generator().reshape(-1, 1)
+                disc_value = discriminator(samples)
+                
+                # Train Generator
+                generator_optimizer.zero_grad()
+                generator_loss = adversarial_loss(disc_value, valid, gen_dist)
+            
+            scaler.scale(generator_loss).backward(retain_graph=True)
+            scaler.step(generator_optimizer)
+            scaler.update()
+            
+            # Train Discriminator
+            discriminator_optimizer.zero_grad()
+            with torch.amp.autocast('cuda'):
+                real_loss = adversarial_loss(disc_value, valid, real_dist)
+                fake_loss = adversarial_loss(disc_value, fake, gen_dist.detach())
+                discriminator_loss = (real_loss + fake_loss) / 2
+            
+            scaler.scale(discriminator_loss).backward()
+            scaler.step(discriminator_optimizer)
+            scaler.update()
+        else:
+            # CPU path (no AMP)
+            gen_dist = generator().reshape(-1, 1)
+            disc_value = discriminator(samples)
+            
+            # Train Generator
+            generator_optimizer.zero_grad()
+            generator_loss = adversarial_loss(disc_value, valid, gen_dist)
+            generator_loss.backward(retain_graph=True)
+            generator_optimizer.step()
+            
+            # Train Discriminator
+            discriminator_optimizer.zero_grad()
+            real_loss = adversarial_loss(disc_value, valid, real_dist)
+            fake_loss = adversarial_loss(disc_value, fake, gen_dist.detach())
+            discriminator_loss = (real_loss + fake_loss) / 2
+            discriminator_loss.backward()
+            discriminator_optimizer.step()
         
         # Calculate KL divergence
-        gen_dist_np = gen_dist.detach().squeeze().numpy()
-        real_dist_np = real_dist.squeeze().numpy()
+        gen_dist_np = gen_dist.detach().cpu().squeeze().numpy()
+        real_dist_np = real_dist.cpu().squeeze().numpy()
         
         # Ensure no zeros for KL divergence calculation
         gen_dist_np = np.clip(gen_dist_np, 1e-10, 1.0)
@@ -236,7 +299,7 @@ def run_tournament(n_epochs=100):
     print("MATCH 1: Device 1 vs Device 2")
     print("-" * 80)
     grid_1v2 = create_grid_distribution(freq_1, freq_2)
-    kl_1v2, history_1v2 = train_qgan(grid_1v2, n_epochs=n_epochs)
+    kl_1v2, history_1v2 = train_qgan(grid_1v2, n_epochs=n_epochs, device=device)
     results['1v2'] = {'kl': kl_1v2, 'history': history_1v2}
     print()
     
@@ -245,7 +308,7 @@ def run_tournament(n_epochs=100):
     print("MATCH 2: Device 1 vs Device 3")
     print("-" * 80)
     grid_1v3 = create_grid_distribution(freq_1, freq_3)
-    kl_1v3, history_1v3 = train_qgan(grid_1v3, n_epochs=n_epochs)
+    kl_1v3, history_1v3 = train_qgan(grid_1v3, n_epochs=n_epochs, device=device)
     results['1v3'] = {'kl': kl_1v3, 'history': history_1v3}
     print()
     
@@ -254,7 +317,7 @@ def run_tournament(n_epochs=100):
     print("MATCH 3: Device 2 vs Device 3")
     print("-" * 80)
     grid_2v3 = create_grid_distribution(freq_2, freq_3)
-    kl_2v3, history_2v3 = train_qgan(grid_2v3, n_epochs=n_epochs)
+    kl_2v3, history_2v3 = train_qgan(grid_2v3, n_epochs=n_epochs, device=device)
     results['2v3'] = {'kl': kl_2v3, 'history': history_2v3}
     print()
     
@@ -322,9 +385,10 @@ def analyze_results(results):
     print()
     print("Device 3 being easiest to classify suggests it has most distinctive signature.")
     if 'Device 2 vs 3' in [p[0] for p in sorted_pairs[:1]]:
-        print("✓ VALIDATED: qGAN tournament confirms Device 2 vs 3 most distinguishable")
+        print("VALIDATED: qGAN tournament confirms Device 2 vs 3 most distinguishable")
     else:
-        print("⚠ MISMATCH: qGAN ranking differs from classification results")
+        # Use ASCII-only to avoid Windows console encoding issues
+        print("MISMATCH: qGAN ranking differs from classification results")
     
     print()
     return kl_scores
@@ -385,7 +449,7 @@ def plot_results(results):
     ax4.grid(alpha=0.3)
     
     plt.tight_layout()
-    plt.savefig('fig_qgan_tournament_results.png', dpi=300, bbox_inches='tight')
+    plt.savefig(str(FIGURES_DIR / 'fig_qgan_tournament_results.png'), dpi=300, bbox_inches='tight')
     print(f"Figure saved: fig_qgan_tournament_results.png")
     plt.close()
 
@@ -420,10 +484,10 @@ def save_results(results, kl_scores):
         ]
     }
     
-    with open('qgan_tournament_results.json', 'w') as f:
+    with open(str(RESULTS_DIR / 'qgan_tournament_results.json'), 'w') as f:
         json.dump(output, f, indent=2)
     
-    print(f"Results saved: qgan_tournament_results.json")
+    print(f"Results saved: {RESULTS_DIR / 'qgan_tournament_results.json'}")
 
 # Main execution
 if __name__ == "__main__":

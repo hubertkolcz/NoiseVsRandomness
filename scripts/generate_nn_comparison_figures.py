@@ -261,7 +261,7 @@ ax2.grid(axis='y', alpha=0.3)
 ax3 = axes[2]
 device_names = ['Device 1\n(IBMQ Sim 1)', 'Device 2\n(IBMQ Sim 2)', 'Device 3\n(IBMQ Sim 3)']
 one_freq = [54.7, 56.5, 49.2]
-entropy = [0.986, 0.979, 0.992]
+entropy = [0.994, 0.988, 1.000]
 markov_11 = [57.25, 59.15, 50.83]
 
 ax3_twin = ax3.twinx()
@@ -283,7 +283,7 @@ ax3.tick_params(axis='y', labelcolor='#9467bd')
 ax3_twin.tick_params(axis='y', labelcolor='#e377c2')
 
 # Add note
-ax3.text(0.5, 0.02, 'Device 3: Most balanced (49.2% ≈ 50%), highest entropy (0.992)\nDevice 2: Most biased (56.5%), easiest to classify', 
+ax3.text(0.5, 0.02, 'Device 3: Most balanced (49.2% ≈ 50%), perfect entropy (1.000)\nDevice 2: Most biased (56.5%), Device 3 easiest to classify', 
         transform=ax3.transAxes, fontsize=8, ha='center',
         bbox=dict(boxstyle='round', facecolor='wheat', alpha=0.5))
 
