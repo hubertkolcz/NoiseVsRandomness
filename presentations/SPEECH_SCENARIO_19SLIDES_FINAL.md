@@ -135,6 +135,10 @@
 
 > "The optimal configuration: 30→20→3 architecture, batch size 8, L1 regularization, 1000 epochs. This achieves 59% accuracy on the N=30 validation set."
 
+**[Architecture consistency note]**
+
+> "Critically: this optimization was conducted on the N=3 dataset, and the resulting best configuration was then applied to N=30 without modification. The replication—59.42% on N=3 to 59.21% on N=30—confirms the architecture generalizes beyond the original training data."
+
 ---
 
 ## **SLIDE 10: Per-Device Performance (9:50 - 10:40) [50 seconds]**
@@ -270,6 +274,10 @@
 **[Let the figure speak]**
 
 > "This comprehensive validation dashboard summarizes all findings across six panels. Panel A shows replication from N=3 to N=30—all metrics hold. Panel B shows statistical significance with p<10⁻⁹ across all tests. Panel C confirms dataset balance with 10 devices per bias class. Panel D demonstrates clear KL distribution separation—within-class clustered, between-class separated. Panel E shows performance gains: 120% above random baseline, validated. Panel F provides the summary statistics: r=0.865, ρ=0.931, 20× distinguishability."
+
+**[Architecture note]**
+
+> "Note that both studies use identical neural network architecture—100 to 30 to 20 to 3 neurons, batch size 8, L1 regularization—ensuring valid comparison. The replication validates method generalization."
 
 **[Visual evidence]**
 

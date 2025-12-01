@@ -150,12 +150,21 @@ async def convert_html_to_pdf(html_file='presentations/presentation_20slides.htm
         """)
         
         # Render each slide individually
+        print(f"\n")
         for slide_num in range(1, total_slides + 1):
-            print(f"  Rendering slide {slide_num}/{total_slides}...", end='\r')
+            print(f"  Rendering slide {slide_num}/{total_slides}...")
             
             # Navigate to specific slide
             await page.evaluate(f'showSlide({slide_num})')
-            await page.wait_for_timeout(500)
+            await page.wait_for_timeout(800)  # Increased wait time
+            
+            # Verify the correct slide is visible
+            visible_slide = await page.evaluate('document.querySelector(".slide.active")?.getAttribute("data-slide")')
+            active_count = await page.evaluate('document.querySelectorAll(".slide.active").length')
+            if str(visible_slide) != str(slide_num):
+                print(f"    ⚠️  Warning: Expected slide {slide_num} but got {visible_slide}")
+            if active_count != 1:
+                print(f"    ⚠️  Warning: {active_count} active slides (should be 1)")
             
             # Generate PDF for this slide
             slide_pdf = os.path.join(temp_dir, f'slide_{slide_num:02d}.pdf')
@@ -175,6 +184,12 @@ async def convert_html_to_pdf(html_file='presentations/presentation_20slides.htm
         # Merge all individual PDFs
         merger = PdfMerger()
         for pdf_file in pdf_files:
+            # Check page count of individual PDF
+            from PyPDF2 import PdfReader
+            temp_reader = PdfReader(pdf_file)
+            page_count = len(temp_reader.pages)
+            if page_count > 1:
+                print(f"  ⚠️  {os.path.basename(pdf_file)} has {page_count} pages!")
             merger.append(pdf_file)
         
         merger.write(output_file)

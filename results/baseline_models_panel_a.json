@@ -1,0 +1,73 @@
+{
+  "metadata": {
+    "timestamp": "2025-12-01T14:32:03.279021",
+    "dataset": "AI_2qubits_training_data.txt",
+    "total_samples": 6000,
+    "seed": 42
+  },
+  "models": [
+    {
+      "name": "Random Baseline",
+      "architecture": "None",
+      "test_accuracy": 0.3333333333333333,
+      "parameters": 0,
+      "config": {
+        "theoretical": true
+      }
+    },
+    {
+      "name": "NN (20-20-3) L2",
+      "architecture": "100->20->20->3",
+      "test_accuracy": 0.5291666666666667,
+      "parameters": 2503,
+      "config": {
+        "epochs": 40,
+        "lr": 0.001,
+        "l2_lambda": 0.0005
+      }
+    },
+    {
+      "name": "NN (20-10-3) Limited",
+      "architecture": "100->20->10->3",
+      "test_accuracy": 0.55,
+      "parameters": 2263,
+      "config": {
+        "epochs": 300,
+        "lr": 0.001,
+        "l1_lambda": 0.001
+      }
+    },
+    {
+      "name": "NN (30-20-3) Batch=4",
+      "architecture": "100->30->20->3",
+      "test_accuracy": 0.5533333333333333,
+      "parameters": 3713,
+      "config": {
+        "epochs": 100,
+        "lr": 0.001,
+        "l1_lambda": 0.002
+      }
+    },
+    {
+      "name": "Logistic Regression",
+      "architecture": "100->3 (linear)",
+      "test_accuracy": 0.5327777777777778,
+      "parameters": 303,
+      "config": {
+        "max_iter": 1000,
+        "split": "70-30"
+      }
+    },
+    {
+      "name": "Best NN (30-20-3) L1",
+      "architecture": "100->30->20->3",
+      "test_accuracy": 0.5575,
+      "parameters": 3713,
+      "config": {
+        "epochs": 1000,
+        "lr": 0.001,
+        "l1_lambda": 0.002
+      }
+    }
+  ]
+}

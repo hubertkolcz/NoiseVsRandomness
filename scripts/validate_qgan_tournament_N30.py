@@ -630,7 +630,12 @@ def main():
             'pearson_p': float(correlation_results['pearson_p']),      # Keep for backward compatibility
             'spearman_r': float(correlation_results['spearman_r']),    # Keep for backward compatibility
             'spearman_p': float(correlation_results['spearman_p']),    # Keep for backward compatibility
-            'significant': bool(correlation_results['significant'])
+            'significant': bool(correlation_results['significant']),
+            'per_device_data': {
+                'avg_kl': [float(x) for x in correlation_results['avg_kl']],
+                'nn_accuracies': [float(x) for x in correlation_results['accuracies']],
+                'lr_accuracies': [float(x) for x in lr_correlation_results['accuracies']]
+            }
         },
         'original_vs_validation': {
             'original_kl_low': 0.050,

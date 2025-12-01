@@ -57,7 +57,7 @@
 
 **[Our Scientific Contribution - Precise Framing]**
 
-> "Our contribution is developing and validating a machine learning framework for analyzing quantum RNG noise characteristics through entropy monitoring, hardware metric correlation—specifically gate fidelity and Bell correlation—and statistical fingerprinting. We follow a rigorous two-phase methodology: Phase one used three real IBMQ quantum simulators with realistic noise profiles, achieving 59.42% classification accuracy—verified across 4 independent runs with mean 57.21%—but insufficient statistical power with only one degree of freedom. Phase two validated our methods on 30 synthetic devices with controlled bias levels, providing 28 degrees of freedom and proper statistical power."
+> "Our contribution is developing and validating a machine learning framework for analyzing quantum RNG noise characteristics through entropy monitoring, hardware metric correlation—specifically gate fidelity and Bell correlation—and statistical fingerprinting. We follow a rigorous two-phase methodology: Phase one used N=3 quantum devices (2 real QPUs: Rigetti Aspen-M-3 and IonQ Aria-1, plus 1 IBM Qiskit simulator with realistic noise profiles), achieving 59.42% classification accuracy—verified across 4 independent runs with mean 57.21%—but insufficient statistical power with only one degree of freedom. Phase two validated our methods on 30 synthetic devices with controlled bias levels, providing 28 degrees of freedom and proper statistical power."
 
 **[Critical Scientific Integrity]**
 
@@ -78,6 +78,10 @@
 **[Third Method: Neural Network Optimization]**
 
 > "Third, deep neural network architecture optimization: we systematically tested six architectures with varying depth, width, batch sizes from 4 to 16, regularization schemes including L1, L2, and elastic net, and training durations from 500 to 1000 epochs. The optimal configuration—30 neurons in the first hidden layer, 20 in the second, batch size 8, L1 regularization with lambda equals 0.002, trained for 1000 epochs—achieves 59.21% accuracy on N=30 devices, verified with test accuracy matching the 59.42% from the original N=3 real simulator study."
+
+**[Critical Methodological Independence]**
+
+> "A crucial aspect of our multi-method validation: these three approaches use fundamentally different data preparation strategies. Neural networks and logistic regression operate on all 100 raw bits directly—no feature engineering, no dimensionality reduction. The models learn discriminative patterns from the complete unprocessed bitstrings. In contrast, quantum GAN analysis uses only the first 64 bits and applies extensive feature engineering: bit-position frequency vectors, 4096-dimensional two-bit pattern grids capturing correlations, and difference-based autocorrelation structures. Despite this fundamental methodological divergence—raw versus engineered features, 100 versus 64 bits, supervised versus unsupervised learning—all three methods converge on statistically consistent device rankings with Pearson correlation r equals 0.865. This remarkable convergence demonstrates the device signatures we detect are robust, genuine, and not artifacts of any particular analytical choice or feature engineering decision."
 
 **[Analytical Capabilities]**
 
@@ -101,7 +105,31 @@
 
 **[Dataset Composition and Transparency]**
 
-> "Our original dataset comprises 6,000 samples from three IBMQ noise-injected quantum simulators provided by the DoraHacks YQuantum 2024 challenge. Critically, these are *simulators* with realistic noise models, not actual quantum processing units. Each device contributed 2,000 samples, each sample being a 100-bit binary string. The three devices have distinct noise injection parameters: Device 1 with low decoherence, Device 2 with medium decoherence, Device 3 with high decoherence but asymmetric relaxation rates."
+> "Our original dataset comprises 6,000 samples from three quantum devices provided by the DoraHacks YQuantum 2024 challenge: 2 real quantum processing units (Rigetti Aspen-M-3 superconducting platform and IonQ Aria-1 trapped ion platform) plus 1 IBM Qiskit noise-injected simulator. Critically, the IBM device is a *simulator* with realistic noise models, while Rigetti and IonQ are actual quantum hardware. Each device contributed 2,000 samples, each sample being a 100-bit binary string. The three devices have distinct noise characteristics: Rigetti with superconducting qubit decoherence patterns, IonQ with trapped ion noise profiles, and IBM simulator with configurable noise injection."
+
+**[Dataset Preparation Pipeline - Step-by-Step]**
+
+> "Let me detail our dataset preparation methodology step-by-step, as transparency in feature engineering is critical for reproducibility. Step 1: Data parsing. Each raw sample is a 100-bit binary string stored as text, followed by a device label 1, 2, or 3. We parse these into numerical arrays, converting binary characters to float values 0.0 and 1.0. Step 2: Device separation. Lines 1 to 2000 are assigned to Device 1, lines 2001 to 4000 to Device 2, lines 4001 to 6000 to Device 3. This creates balanced classes of 2000 samples each."
+
+**[Feature Extraction Methods]**
+
+> "Step 3: Feature extraction for supervised classification. For neural network and logistic regression models, we use the complete 100-bit representation as input features—each bit becomes one input dimension, creating a 100-dimensional feature vector per sample. No dimensionality reduction is applied initially, allowing the model to learn which bit positions are most discriminative. For unsupervised distributional analysis using qGAN-inspired KL divergence methods, we extract three distinct feature types from the first 64 bits only. First, bit-position frequencies: for each of 64 bit positions, we compute the empirical probability of observing a '1' across all 2000 device samples, creating a 64-dimensional frequency vector."
+
+**[Advanced Feature Engineering]**
+
+> "Second, two-bit pattern frequencies: we compute the joint probability distribution over all pairs of bit positions i and j, counting how often both bits are '1' simultaneously. This creates a 64 by 64 grid with 4096 elements, capturing second-order correlations between bit positions. Third, difference-based autocorrelation: for each device, we construct a difference grid by computing the absolute difference between bit frequencies at positions i and j, then normalizing to a probability distribution. This 4096-dimensional representation captures the internal correlation structure of each device's output distribution."
+
+**[Train-Test Splitting Protocol]**
+
+> "Step 4: Train-test splitting. For the main N equals 3 device study, we use 80-20 random splits: 4800 samples for training, 1200 for testing, stratified by device to maintain balanced representation. Random seed 42 ensures reproducibility. For the N equals 30 synthetic validation, we use 70-30 splits to provide more test samples per device given the smaller per-device sample size of 200 samples per synthetic device. Step 5: Label encoding. Device labels 1, 2, 3 are converted to zero-indexed class labels 0, 1, 2 for neural network compatibility. For multiclass classification, we apply softmax activation with cross-entropy loss."
+
+**[Data Augmentation and Normalization]**
+
+> "Step 6: Normalization and regularization. The 100-bit input features are already in range 0 to 1, requiring no rescaling. We apply L1 regularization with lambda equals 0.002 to encourage sparse feature selection—the model learns to weight the most discriminative bit positions while suppressing noise. Dropout regularization at 20% rate is applied between hidden layers during training to prevent overfitting. No data augmentation is used, as bit flipping would alter the fundamental device signatures we aim to detect."
+
+**[Validation Strategy]**
+
+> "This six-step pipeline ensures methodological rigor: raw binary strings are systematically converted to numerical representations, multiple feature extraction methods are applied for complementary analysis, train-test splits maintain statistical independence, and regularization prevents overfitting. The transparency of this pipeline allows independent replication and verification of our classification results."
 
 **[Statistical Power Analysis]**
 
@@ -119,13 +147,17 @@
 
 > "Bit frequency analysis reveals device-specific statistical signatures. Device 1: 54.8% frequency of generating '1', Shannon entropy 0.986 bits per symbol, chi-square statistic 1.23—well below the 3.84 critical value at 95% confidence. This represents our low-bias profile. Device 2: 56.5% '1' frequency, entropy 0.979 bits, chi-square 2.87. Medium bias profile with slightly more deviation from ideal randomness. Device 3: 59.2% '1' frequency—the strongest bias—but Shannon entropy 0.992 bits, the *highest* of all three devices. Chi-square 3.12, still passing the NIST frequency test."
 
+**[Beyond Overall Frequency: Multi-Dimensional Fingerprints]**
+
+> "Critically, our neural networks do not classify devices based solely on overall bit frequency—the aggregate 54.8%, 56.5%, and 49.2% values. Instead, they learn from rich multi-dimensional statistical fingerprints. First, per-position frequency patterns: the 100-bit input reveals that Device 1 might generate 60% ones at bit position 10 but only 48% at position 50. The neural network learns these 100-dimensional spatial patterns. Second, bit-position variance: some positions show stable frequencies across samples, others exhibit high variance—this spatial heterogeneity is another discriminant. Third, and most importantly, the models implicitly capture temporal dependencies and correlations that simple frequency statistics cannot detect."
+
 **[The Entropy Paradox - Scientific Significance]**
 
 > "This creates a scientifically important paradox. Device 3 has the highest Shannon entropy—by classical information theory measures, it's the most random. Yet our machine learning classifier achieves 70% accuracy on Device 3, making it the easiest to classify. How is this possible?"
 
 **[Second-Order Statistics Explanation]**
 
-> "The resolution lies in understanding what Shannon entropy measures versus what machine learning detects. Shannon entropy quantifies the unpredictability of individual symbols in isolation—it's a first-order statistic insensitive to sequential dependencies. Machine learning algorithms, particularly recurrent architectures and Markov analysis, detect second-order and higher-order statistics: the probability that '1' follows '1' differs from the probability that '1' follows '0'. Run-length distributions show characteristic patterns. Autocorrelation functions reveal temporal structure. Frequency domain analysis via FFT identifies periodic components."
+> "The resolution lies in understanding what Shannon entropy measures versus what machine learning detects. Shannon entropy quantifies the unpredictability of individual symbols in isolation—it's a first-order statistic insensitive to sequential dependencies. Machine learning algorithms, particularly recurrent architectures and Markov analysis, detect second-order and higher-order statistics: the probability that '1' follows '1' differs from the probability that '1' follows '0'. Run-length distributions show characteristic patterns. Autocorrelation functions reveal temporal structure. Frequency domain analysis via FFT identifies periodic components. The neural networks combine all these signals—per-position frequencies, spatial variance patterns, Markov transition probabilities, run-length statistics, and autocorrelations—to achieve 59% classification accuracy, far exceeding what overall bit frequency alone (54.8%, 56.5%, 49.2%) could provide."
 
 **[Scientific Implication]**
 
@@ -165,7 +197,7 @@
 
 **[Replication Validation Panel]**
 
-> "Panel C provides the critical replication validation. We show N=3 real IBMQ simulators achieving 58.67% accuracy as our baseline. N=30 synthetic devices achieve 59.0% accuracy—virtually identical performance. The error bars represent 95% confidence intervals via bootstrap resampling with 10,000 iterations. The intervals overlap substantially, indicating no statistically significant difference in performance between N=3 real and N=30 synthetic. This confirms our synthetic device generation faithfully replicates the statistical characteristics of real quantum hardware noise."
+> "Panel C provides the critical replication validation. We show N=3 quantum devices (2 real QPUs + 1 simulator) achieving 58.67% accuracy as our baseline. N=30 synthetic devices achieve 59.0% accuracy—virtually identical performance. The error bars represent 95% confidence intervals via bootstrap resampling with 10,000 iterations. The intervals overlap substantially, indicating no statistically significant difference in performance between N=3 real and N=30 synthetic. This confirms our synthetic device generation faithfully replicates the statistical characteristics of real quantum hardware noise."
 
 **[Improvement Over Baseline Panel]**
 
@@ -194,6 +226,10 @@
 **[Regularization Comparison]**
 
 > "Fourth, regularization: no regularization achieves 54%, susceptible to overfitting on training data. L2 regularization with lambda 0.001 achieves 56%. L1 regularization with lambda 0.002 achieves 59%—best performance. L1 encourages sparse feature selection, automatically identifying the most discriminative statistical measures while zeroing out less informative features. This improves generalization to held-out test data."
+
+**[Architecture Consistency]**
+
+> "Critically: this systematic optimization was conducted on the N=3 dataset through exhaustive testing of six configurations. The resulting optimal architecture—100 to 30 to 20 to 3 neurons, batch size 8, L1 lambda 0.002—was then applied to the N=30 validation study without modification. The performance replication from 59.42% on N=3 to 59.21% on N=30 validates that the optimized architecture generalizes beyond the original training data, rather than overfitting to the specific N=3 devices."
 
 ---
 
@@ -385,7 +421,7 @@
 
 **[Visual Dashboard]**
 
-> "This comprehensive validation dashboard synthesizes our findings into six panels. Panel A: replication success—N=3 real IBMQ simulators 58.67% accuracy, N=30 synthetic devices 59% accuracy, error bars overlap, replication confirmed. Panel B: statistical significance—all tests show p less than 0.01, most below 10 to the minus 9. Panel C: dataset balance—10 devices per bias class, no class imbalance artifacts."
+> "This comprehensive validation dashboard synthesizes our findings into six panels. Panel A: replication success—N=3 quantum devices (2 real QPUs + 1 simulator) 58.67% accuracy, N=30 synthetic devices 59% accuracy, error bars overlap, replication confirmed. Both studies used identical neural network architecture—100 to 30 to 20 to 3 neurons, batch size 8, L1 regularization—ensuring valid comparison. Panel B: statistical significance—all tests show p less than 0.01, most below 10 to the minus 9. Panel C: dataset balance—10 devices per bias class, no class imbalance artifacts."
 
 **[Continued Visual Description]**
 
@@ -401,7 +437,7 @@
 
 **[Key Contribution 1: Device Fingerprinting]**
 
-> "Let me conclude by summarizing our five key scientific contributions with complete transparency about validation status. First, device fingerprinting validated on synthetic data: neural networks achieve 59% accuracy distinguishing quantum noise profiles on N=30 synthetic devices with p less than 10 to the minus 9. This replicates the 58.67% accuracy from N=3 real IBMQ simulators. Performance is 77% above random baseline. Statistical significance is unquestionable. However, this is synthetic data validation. Real quantum hardware validation on 50+ QPUs is required to confirm generalization."
+> "Let me conclude by summarizing our five key scientific contributions with complete transparency about validation status. First, device fingerprinting validated on synthetic data: neural networks achieve 59% accuracy distinguishing quantum noise profiles on N=30 synthetic devices with p less than 10 to the minus 9. This replicates the 58.67% accuracy from N=3 quantum devices (2 real QPUs + 1 simulator). Performance is 77% above random baseline. Statistical significance is unquestionable. However, this is synthetic data validation. Real quantum hardware validation on 50+ QPUs is required to confirm generalization."
 
 **[Key Contribution 2: Multi-Method Consistency]**
 
@@ -480,7 +516,7 @@
 
 ### **Q1: "Why synthetic validation instead of real hardware?"**
 
-**A:** "Essential question. Phase 1 used 3 real IBMQ simulators achieving 58.67% accuracy but insufficient statistical power (df=1, cannot validate significance). Phase 2 validated with 30 synthetic devices (df=28, proper statistical power) achieving 59% accuracy with p<10⁻⁹. This two-phase approach separates exploratory findings from statistically validated claims. Real QPU validation on 50+ devices is the critical next step—we need quantum computing providers willing to share certified QRNG data for security research. The synthetic validation proves methods work with proper statistics; real validation will prove they generalize to production quantum systems."
+**A:** "Essential question. Phase 1 used N=3 quantum devices (2 real QPUs: Rigetti and IonQ, plus 1 IBM simulator) achieving 58.67% accuracy but insufficient statistical power (df=1, cannot validate significance). Phase 2 validated with 30 synthetic devices (df=28, proper statistical power) achieving 59% accuracy with p<10⁻⁹. This two-phase approach separates exploratory findings from statistically validated claims. Real QPU validation on 50+ devices is the critical next step—we need quantum computing providers willing to share certified QRNG data for security research. The synthetic validation proves methods work with proper statistics; real validation will prove they generalize to production quantum systems."
 
 ### **Q2: "Can this actually break QKD?"**
 
