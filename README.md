@@ -4,7 +4,7 @@
 ## 📄 Publications & Resources
 - **Poster**: [Verification of qRNG Using qGAN and Classification Models](Verification_of_qRNG_Using_qGAN_and_Classification_Models.pdf)
 - **Paper**: [ML-Driven Quantum Hacking of CHSH-Based QKD Protocols](ML_Driven_Quantum_Hacking_of_CHSH_Based_QKD_Protocols.pdf)
-- **Presentation**: [20-Slide Presentation HTML](presentations/presentation_20slides.html)
+- **Presentation**: [Presentation](presentations/presentation.pdf)
 
 ## 🎯 Project Overview
 
